@@ -5,3 +5,6 @@
 *.xcuserdatad
 *.xccheckout
 
+# CocoaPods
+Pods/
+

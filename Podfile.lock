@@ -1,0 +1,42 @@
+PODS:
+  - Alamofire (1.1.4)
+  - Representor (0.3.0):
+    - Representor/Core (= 0.3.0)
+    - Representor/HTTP (= 0.3.0)
+  - Representor/Core (0.3.0)
+  - Representor/HTTP (0.3.0):
+    - Representor/HTTP/Adapters (= 0.3.0)
+    - Representor/HTTP/Alamofire (= 0.3.0)
+    - Representor/HTTP/Deserialization (= 0.3.0)
+    - Representor/HTTP/Transition (= 0.3.0)
+  - Representor/HTTP/Adapters (0.3.0):
+    - Representor/HTTP/Adapters/APIBlueprint (= 0.3.0)
+    - Representor/HTTP/Adapters/HAL (= 0.3.0)
+    - Representor/HTTP/Adapters/Siren (= 0.3.0)
+  - Representor/HTTP/Adapters/APIBlueprint (0.3.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Adapters/HAL (0.3.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Adapters/Siren (0.3.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Alamofire (0.3.0):
+    - Alamofire
+    - Representor/HTTP/Transition
+    - URITemplate
+  - Representor/HTTP/Deserialization (0.3.0):
+    - Representor/HTTP/Adapters/HAL
+    - Representor/HTTP/Adapters/Siren
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Transition (0.3.0):
+    - Representor/Core
+  - URITemplate (1.1.1)
+
+DEPENDENCIES:
+  - Representor
+
+SPEC CHECKSUMS:
+  Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
+  Representor: 26429e85909421fc07cc6be92d2f3d3df8a396cf
+  URITemplate: 702714d5d0120400fc22a4271e066c123e75d01a
+
+COCOAPODS: 0.36.3
