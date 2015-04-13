@@ -33,6 +33,7 @@ PODS:
 
 DEPENDENCIES:
   - Representor
+  - URITemplate (~> 1.1.0)
 
 SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac

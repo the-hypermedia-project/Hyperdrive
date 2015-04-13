@@ -19,7 +19,7 @@ class HyperdriveTests: XCTestCase {
     hyperdrive = Hyperdrive()
   }
 
-  // MARK: Constructing a request
+  // MARK: Constructing a request from a URI
 
   func testConstructingRequestReturnsWithAcceptHeaderRequest() {
     let request = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/")
@@ -28,13 +28,13 @@ class HyperdriveTests: XCTestCase {
     XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
   }
 
-  func xtestConstructingRequestExpandsURITemplate() {
+  func testConstructingRequestExpandsURITemplate() {
     let request = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/{username}", parameters:["username": "kyle"])
 
     XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")
   }
 
-  // MARK: Constructing a request
+  // MARK: Constructing a request from a transition
 
   func testConstructingRequestFromTransitionReturnsWithAcceptHeaderRequest() {
     let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/users") { builder in
@@ -46,10 +46,8 @@ class HyperdriveTests: XCTestCase {
     XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
   }
 
-  func xtestConstructingRequestFromTransitionExpandsURITemplate() {
-    let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/users") { builder in
-
-    }
+  func testConstructingRequestFromTransitionExpandsURITemplate() {
+    let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/{username}") { builder in }
     let request = hyperdrive.constructRequest(transition, parameters:["username": "kyle"])
 
     XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")

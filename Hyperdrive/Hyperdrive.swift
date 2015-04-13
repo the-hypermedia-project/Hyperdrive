@@ -8,6 +8,7 @@
 
 import Foundation
 import Representor
+import URITemplate
 
 
 /// Map a dictionaries values
@@ -83,8 +84,9 @@ public class Hyperdrive {
 
   /// Construct a request from a URI and parameters
   public func constructRequest(uri:String, parameters:[String:AnyObject]? = nil) -> NSMutableURLRequest {
-    // TODO: We should expand this URI with the given parameters
-    if let URL = NSURL(string: uri) {
+    let expandedURI = URITemplate(template: uri).expand(parameters ?? [:])
+
+    if let URL = NSURL(string: expandedURI) {
       let request = NSMutableURLRequest(URL: URL)
       request.setValue("application/vnd.siren+json; application/hal+json", forHTTPHeaderField: "Accept")
       return request
@@ -97,7 +99,7 @@ public class Hyperdrive {
   public func constructRequest(transition:HTTPTransition, parameters:[String:AnyObject]?  = nil, attributes:[String:AnyObject]? = nil) -> NSMutableURLRequest {
     /// TODO: We should return some form of result type
 
-    let request = constructRequest(transition.uri)
+    let request = constructRequest(transition.uri, parameters:parameters)
     request.HTTPMethod = transition.method
 
     if let attributes = attributes {
