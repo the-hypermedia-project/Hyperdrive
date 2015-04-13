@@ -113,8 +113,8 @@ public class Hyperdrive {
       return .Success(request)
     }
 
-    /// TODO: We should return some form of result type
-    fatalError("Creating NSURL from given URI failed")
+    let error = NSError(domain: "Hyperdrive", code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
+    return .Failure(error)
   }
 
   public func constructRequest(transition:HTTPTransition, parameters:[String:AnyObject]?  = nil, attributes:[String:AnyObject]? = nil) -> RequestResult {
