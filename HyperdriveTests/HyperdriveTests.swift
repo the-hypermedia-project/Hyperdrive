@@ -22,55 +22,83 @@ class HyperdriveTests: XCTestCase {
   // MARK: Constructing a request from a URI
 
   func testConstructingRequestReturnsWithAcceptHeaderRequest() {
-    let request = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/")
-    let header = request.allHTTPHeaderFields!["Accept"] as String
+    let result = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/")
 
-    XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
+    switch result {
+    case .Success(let request):
+      let header = request.allHTTPHeaderFields!["Accept"] as String
+      XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
   }
 
   func testConstructingRequestExpandsURITemplate() {
-    let request = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/{username}", parameters:["username": "kyle"])
+    let result = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/{username}", parameters:["username": "kyle"])
 
-    XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")
+    switch result {
+    case .Success(let request):
+      XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
   }
 
   // MARK: Constructing a request from a transition
 
   func testConstructingRequestFromTransitionReturnsWithAcceptHeaderRequest() {
-    let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/users") { builder in
+    let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/users") { builder in }
+    let result = hyperdrive.constructRequest(transition)
 
+    switch result {
+    case .Success(let request):
+      let header = request.allHTTPHeaderFields!["Accept"] as String
+      XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
+    case .Failure(let error):
+      XCTFail(error.description)
     }
-    let request = hyperdrive.constructRequest(transition)
-    let header = request.allHTTPHeaderFields!["Accept"] as String
-
-    XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
   }
 
   func testConstructingRequestFromTransitionExpandsURITemplate() {
     let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/{username}") { builder in }
-    let request = hyperdrive.constructRequest(transition, parameters:["username": "kyle"])
+    let result = hyperdrive.constructRequest(transition, parameters:["username": "kyle"])
 
-    XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")
+    switch result {
+    case .Success(let request):
+      XCTAssertEqual(request.URL!.absoluteString!, "https://hyperdrive-tests.fuller.li/kyle")
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
   }
 
   func testConstructingRequestFromTransitionWithMethod() {
     let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/kyle") { builder in
       builder.method = "PATCH"
     }
-    let request = hyperdrive.constructRequest(transition)
+    let result = hyperdrive.constructRequest(transition)
 
-    XCTAssertEqual(request.HTTPMethod, "PATCH")
+    switch result {
+    case .Success(let request):
+      XCTAssertEqual(request.HTTPMethod, "PATCH")
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
   }
 
   func testConstructingRequestFromTransitionWithJSONAttributes() {
     let transition = HTTPTransition(uri: "https://hyperdrive-tests.fuller.li/users") { builder in
       builder.suggestedContentTypes = ["application/json"]
     }
-    let request = hyperdrive.constructRequest(transition, attributes:["username": "kyle"])
+    let result = hyperdrive.constructRequest(transition, attributes:["username": "kyle"])
 
-    let body = request.HTTPBody!
-    let decodedBody = NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(0), error: nil) as NSDictionary
-    XCTAssertEqual(decodedBody, ["username": "kyle"])
+    switch result {
+    case .Success(let request):
+      let body = request.HTTPBody!
+      let decodedBody = NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(0), error: nil) as NSDictionary
+      XCTAssertEqual(decodedBody, ["username": "kyle"])
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
   }
 
   func xtestConstructingRequestFromTransitionWithFormEncodedAttributes() {
