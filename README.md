@@ -2,7 +2,7 @@
 
 A simple Hypermedia API client in Swift, which makes use of the [Representor](https://github.com/the-hypermedia-project/representor-swift) pattern.
 
-Hyperdrive has support for the following content-types:
+Hyperdrive supports the following content-types:
 
 - [Siren]() (`application/vnd.siren+json`)
 - [HAL]() (`application/hal+json`)
@@ -11,14 +11,14 @@ Hyperdrive has support for the following content-types:
 
 Below is a short example of using Hyperdrive talking to a Hypermedia API. We
 will connect to a [Polls API](https://github.com/apiaryio/polls-api), an
-API which allows you to view questions, vote in them and create questions.
+API which allows you to view questions, vote for them and create questions.
 
 ```swift
 let hyperdrive = Hyperdrive()
 ```
 
-To get started, we will enter the API by it's root URI. We will pass it an
-asyncronous function to be executed with a result from the API.
+To get started, we will enter the API from its root URI. We will pass it an
+asynchronous function to be executed with a result from the API.
 
 ```swift
 hyperdrive.enter("https://polls.apiblueprint.org/") { result in
@@ -33,28 +33,28 @@ hyperdrive.enter("https://polls.apiblueprint.org/") { result in
 ```
 
 On success, we have a Representor, which allows us to view the attributes
-associated with our resource, along with any relations to other resources along
-with any transitions to other states we may be able to perform.
+associated with our resource, along with any relations to other resources in addition to
+any transitions to other states we may be able to perform.
 
-Our client understands the semantics behind "questions" and explicitly
+Our client understands the semantics behind “questions” and explicitly
 looks for a link to them on our API.
 
 ```swift
 if let questions = representor.links["questions"] {
   println("Our API has a link to a questions resource.")
 } else {
-  println("Looks like this API doesn't support questions, or " +
+  println("Looks like this API doesn’t support questions, or " +
           "the feature was removed.")
 }
 ```
 
-Since our API has a link to a collection of questions, let's retrieve them and take a look:
+Since our API has a link to a collection of questions, let’s retrieve them and take a look:
 
 ```swift
 hyperdrive.request(questions) { result in
   switch result {
     case Success(let representor):
-      println("We've received a representor for the questions.")
+      println("We’ve received a representor for the questions.")
 
     case Failure(let error):
       println("There was a problem retreiving the questions: \(error)")
@@ -68,10 +68,10 @@ our API.
 ```swift
 if let questions = representor.representors["questions"] {
   // Our representor includes a collection of Question resources.
-  // Let's use map to call viewQuestion for each one
+  // Let’s use map to call viewQuestion for each one
   map(questions, viewQuestion)
 } else {
-  println("Look's like there are no questions yet.")
+  println("Looks like there are no questions yet.")
   println("Perhaps the API offers us the ability to create a question?")
 }
 ```
@@ -105,8 +105,8 @@ if let delete = question.transitions["delete"] {
   // We can perform this transition with Hyperdrive
   hyperdrive.request(delete)
 } else {
-  println("The API doesn't offer us the ability to delete a question.")
-  println("Let's gracefully handle the lack of this feature and " +
+  println("The API doesn’t offer us the ability to delete a question.")
+  println("Let’s gracefully handle the lack of this feature and " +
           "remove deletion from our user interface.")
 }
 ```
@@ -138,7 +138,7 @@ if let create = questions.transitions["create"] {
 
   hyperdrive.request(create, attributes)
 } else {
-  // Our API doesn't allow us to create a question. We should remove the
+  // Our API doesn’t allow us to create a question. We should remove the
   // ability to create a question in our user interface.
   // This transition may only be available to certain users.
 }
