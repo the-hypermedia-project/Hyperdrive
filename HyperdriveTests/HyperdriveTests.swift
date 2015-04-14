@@ -26,7 +26,7 @@ class HyperdriveTests: XCTestCase {
 
     switch result {
     case .Success(let request):
-      let header = request.allHTTPHeaderFields!["Accept"] as String
+      let header = request.allHTTPHeaderFields!["Accept"] as! String
       XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
     case .Failure(let error):
       XCTFail(error.description)
@@ -52,7 +52,7 @@ class HyperdriveTests: XCTestCase {
 
     switch result {
     case .Success(let request):
-      let header = request.allHTTPHeaderFields!["Accept"] as String
+      let header = request.allHTTPHeaderFields!["Accept"] as! String
       XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
     case .Failure(let error):
       XCTFail(error.description)
@@ -94,7 +94,7 @@ class HyperdriveTests: XCTestCase {
     switch result {
     case .Success(let request):
       let body = request.HTTPBody!
-      let decodedBody = NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(0), error: nil) as NSDictionary
+      let decodedBody = NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(0), error: nil) as! NSDictionary
       XCTAssertEqual(decodedBody, ["username": "kyle"])
     case .Failure(let error):
       XCTFail(error.description)
@@ -118,7 +118,7 @@ class HyperdriveTests: XCTestCase {
     let body = NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)!
 
     let representor = hyperdrive.constructResponse(response, body:body)!
-    XCTAssertEqual(representor.attributes["test"] as String, "hello world")
+    XCTAssertEqual(representor.attributes["test"] as! String, "hello world")
   }
 }
 

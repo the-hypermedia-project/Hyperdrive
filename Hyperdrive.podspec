@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = '8.0'
   spec.osx.deployment_target = '10.9'
   spec.requires_arc = true
-  spec.dependency 'Representor'
-  spec.dependency 'URITemplate', '~> 1.1.0'
+  spec.dependency 'Representor', '~> 0.4.0'
+  spec.dependency 'URITemplate', '~> 1.2'
 end
 

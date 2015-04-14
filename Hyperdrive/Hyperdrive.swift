@@ -98,7 +98,7 @@ public class Hyperdrive {
 
   /// Enter a hypermedia API given the root URI
   public func enter(uri:String, completion:(Result -> Void)) {
-    request(uri, completion)
+    request(uri, completion:completion)
   }
 
   // MARK: Subclass hooks
@@ -167,7 +167,7 @@ public class Hyperdrive {
             completion(.Failure(error))
         }
       } else {
-        let representor = self.constructResponse(response as NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
+        let representor = self.constructResponse(response as! NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
         dispatch_async(dispatch_get_main_queue()) {
             completion(.Success(representor))
         }
@@ -181,7 +181,7 @@ public class Hyperdrive {
   public func request(uri:String, parameters:[String:AnyObject]? = nil, completion:(Result -> Void)) {
     switch constructRequest(uri, parameters: parameters) {
     case .Success(let request):
-      self.request(request, completion)
+      self.request(request, completion:completion)
     case .Failure(let error):
       completion(.Failure(error))
     }
@@ -193,7 +193,7 @@ public class Hyperdrive {
 
     switch result {
     case .Success(let request):
-      self.request(request, completion)
+      self.request(request, completion:completion)
     case .Failure(let error):
       completion(.Failure(error))
     }
