@@ -1,0 +1,36 @@
+PODS:
+  - Representor (0.4.0):
+    - Representor/Core (= 0.4.0)
+    - Representor/HTTP (= 0.4.0)
+  - Representor/Core (0.4.0)
+  - Representor/HTTP (0.4.0):
+    - Representor/HTTP/Adapters (= 0.4.0)
+    - Representor/HTTP/Deserialization (= 0.4.0)
+    - Representor/HTTP/Transition (= 0.4.0)
+  - Representor/HTTP/Adapters (0.4.0):
+    - Representor/HTTP/Adapters/APIBlueprint (= 0.4.0)
+    - Representor/HTTP/Adapters/HAL (= 0.4.0)
+    - Representor/HTTP/Adapters/Siren (= 0.4.0)
+  - Representor/HTTP/Adapters/APIBlueprint (0.4.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Adapters/HAL (0.4.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Adapters/Siren (0.4.0):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Deserialization (0.4.0):
+    - Representor/HTTP/Adapters/HAL
+    - Representor/HTTP/Adapters/Siren
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Transition (0.4.0):
+    - Representor/Core
+  - URITemplate (1.2.0)
+
+DEPENDENCIES:
+  - Representor (~> 0.4.0)
+  - URITemplate (~> 1.2)
+
+SPEC CHECKSUMS:
+  Representor: 6f0e294e31e12e9f17015bcfc8db443ada00918a
+  URITemplate: 0dbf40f0e378eb9c6d04cc08e6101fb82d126dc3
+
+COCOAPODS: 0.36.3
