@@ -109,6 +109,7 @@ class HyperdriveTests: XCTestCase {
 
   func testConstructingResponseFromSirenBody() {
     let URL = NSURL(string: "https://hyperdrive-tests.fuller.li/users")!
+    let request = NSURLRequest(URL: URL)
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: "1.1", headerFields: ["Content-Type": "application/vnd.siren+json"])!
     let attributes = [
       "properties": [
@@ -117,7 +118,7 @@ class HyperdriveTests: XCTestCase {
     ]
     let body = NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)!
 
-    let representor = hyperdrive.constructResponse(response, body:body)!
+    let representor = hyperdrive.constructResponse(request, response: response, body:body)!
     XCTAssertEqual(representor.attributes["test"] as! String, "hello world")
   }
 }

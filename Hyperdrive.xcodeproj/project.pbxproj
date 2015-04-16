@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2742E06D1AE02EA8009616F7 /* HyperBlueprintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */; };
+		2791DAA91AE02EED008CDF7E /* HyperBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */; };
 		27DCA52A1AD57C7800849B15 /* Hyperdrive.h in Headers */ = {isa = PBXBuildFile; fileRef = 27DCA5291AD57C7800849B15 /* Hyperdrive.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27DCA5301AD57C7800849B15 /* Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCA5241AD57C7700849B15 /* Hyperdrive.framework */; };
 		27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprintTests.swift; sourceTree = "<group>"; };
+		2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprint.swift; sourceTree = "<group>"; };
 		27DCA5241AD57C7700849B15 /* Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27DCA5281AD57C7800849B15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27DCA5291AD57C7800849B15 /* Hyperdrive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hyperdrive.h; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 			children = (
 				27DCA5291AD57C7800849B15 /* Hyperdrive.h */,
 				27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */,
+				2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */,
 				27DCA5271AD57C7700849B15 /* Supporting Files */,
 			);
 			path = Hyperdrive;
@@ -106,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */,
+				2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */,
 				27DCA5341AD57C7800849B15 /* Supporting Files */,
 			);
 			path = HyperdriveTests;
@@ -345,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2791DAA91AE02EED008CDF7E /* HyperBlueprint.swift in Sources */,
 				27DCA5411AD57FFA00849B15 /* Hyperdrive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2742E06D1AE02EA8009616F7 /* HyperBlueprintTests.swift in Sources */,
 				27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

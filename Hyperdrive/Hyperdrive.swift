@@ -147,7 +147,7 @@ public class Hyperdrive {
     return JSONEncoder(attributes)
   }
 
-  public func constructResponse(response:NSHTTPURLResponse, body:NSData?) -> Representor<HTTPTransition>? {
+  public func constructResponse(request:NSURLRequest, response:NSHTTPURLResponse, body:NSData?) -> Representor<HTTPTransition>? {
     if let body = body {
       let representor = HTTPDeserialization.deserialize(response, body: body)
       if let representor = representor {
@@ -164,12 +164,12 @@ public class Hyperdrive {
     let dataTask = session.dataTaskWithRequest(request, completionHandler: { (body, response, error) -> Void in
       if let error = error {
         dispatch_async(dispatch_get_main_queue()) {
-            completion(.Failure(error))
+          completion(.Failure(error))
         }
       } else {
-        let representor = self.constructResponse(response as! NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
+        let representor = self.constructResponse(request, response:response as! NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
         dispatch_async(dispatch_get_main_queue()) {
-            completion(.Success(representor))
+          completion(.Success(representor))
         }
       }
     })
