@@ -87,6 +87,10 @@ public enum ResponseResult {
 
 /// A hypermedia API client
 public class Hyperdrive {
+  public static var errorDomain:String {
+    return "Hyperdrive"
+  }
+
   private let session:NSURLSession
 
   public init() {
@@ -113,7 +117,7 @@ public class Hyperdrive {
       return .Success(request)
     }
 
-    let error = NSError(domain: "Hyperdrive", code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
+    let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
     return .Failure(error)
   }
 
@@ -147,7 +151,7 @@ public class Hyperdrive {
     return JSONEncoder(attributes)
   }
 
-  public func constructResponse(response:NSHTTPURLResponse, body:NSData?) -> Representor<HTTPTransition>? {
+  public func constructResponse(request:NSURLRequest, response:NSHTTPURLResponse, body:NSData?) -> Representor<HTTPTransition>? {
     if let body = body {
       let representor = HTTPDeserialization.deserialize(response, body: body)
       if let representor = representor {
@@ -164,12 +168,12 @@ public class Hyperdrive {
     let dataTask = session.dataTaskWithRequest(request, completionHandler: { (body, response, error) -> Void in
       if let error = error {
         dispatch_async(dispatch_get_main_queue()) {
-            completion(.Failure(error))
+          completion(.Failure(error))
         }
       } else {
-        let representor = self.constructResponse(response as! NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
+        let representor = self.constructResponse(request, response:response as! NSHTTPURLResponse, body: body) ?? Representor<HTTPTransition>()
         dispatch_async(dispatch_get_main_queue()) {
-            completion(.Success(representor))
+          completion(.Success(representor))
         }
       }
     })
