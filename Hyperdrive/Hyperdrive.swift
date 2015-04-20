@@ -87,6 +87,10 @@ public enum ResponseResult {
 
 /// A hypermedia API client
 public class Hyperdrive {
+  public static var errorDomain:String {
+    return "Hyperdrive"
+  }
+
   private let session:NSURLSession
 
   public init() {
@@ -113,7 +117,7 @@ public class Hyperdrive {
       return .Success(request)
     }
 
-    let error = NSError(domain: "Hyperdrive", code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
+    let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
     return .Failure(error)
   }
 

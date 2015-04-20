@@ -67,7 +67,7 @@ private func decodeJSONAttributesArray(data:NSData) -> DecodeArrayResult {
     return .Success(attributes)
   }
 
-  let invaidJSONError = NSError(domain: "Hyperdrive", code: 0, userInfo: [:])
+  let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode JSON attributes array"])
   return .Failure(invaidJSONError)
 }
 
@@ -86,7 +86,7 @@ private func decodeJSONAttributes(data:NSData) -> DecodeAttributesResult {
     return .Success(attributes)
   }
 
-  let invaidJSONError = NSError(domain: "Hyperdrive", code: 0, userInfo: [:])
+  let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode JSON attributes"])
   return .Failure(invaidJSONError)
 }
 
@@ -145,14 +145,14 @@ public class HyperBlueprint : Hyperdrive {
         } else if let body = body {
             self.enter(blueprint: body, baseURL: baseURL, completion: completion)
         } else {
-          let error = NSError(domain: "HyperBlueprint", code: 0, userInfo: [:])
+          let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Response has no body."])
           dispatch_async(dispatch_get_main_queue()) {
             completion(.Failure(error))
           }
         }
         }.resume()
     } else {
-      let error = NSError(domain: "HyperBlueprint", code: 0, userInfo: [:])
+      let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URI for blueprint \(blueprintURL)"])
       completion(.Failure(error))
     }
   }
@@ -180,16 +180,16 @@ public class HyperBlueprint : Hyperdrive {
             self.enter(blueprint, baseURL: baseURL, completion: completion)
           } else {
             dispatch_async(dispatch_get_main_queue()) {
-              completion(.Failure(error ?? NSError(domain: "Hyperdrive", code: 0, userInfo: [:])))
+              completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid API Blueprint AST."])))
             }
           }
         } else {
           dispatch_async(dispatch_get_main_queue()) {
-            completion(.Failure(error ?? NSError(domain: "Hyperdrive", code: 0, userInfo: [:])))
+            completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Unhandled error."])))
           }
         }
       } else {
-        let error = NSError(domain: "Hyperdrive", code: 0, userInfo: [:])
+        let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Response has no body."])
         dispatch_async(dispatch_get_main_queue()) {
           completion(.Failure(error))
         }
@@ -218,7 +218,7 @@ public class HyperBlueprint : Hyperdrive {
         }
       }
 
-      let error = NSError(domain: "Hyperdrive", code: 0, userInfo: [
+      let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [
         NSLocalizedDescriptionKey: "Entering an API Blueprint hyperdrive without a base URL.",
       ])
       dispatch_async(dispatch_get_main_queue()) {
