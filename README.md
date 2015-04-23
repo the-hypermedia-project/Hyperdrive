@@ -4,8 +4,9 @@ A simple Hypermedia API client in Swift, which makes use of the [Representor](ht
 
 Hyperdrive supports the following content-types:
 
-- [Siren]() (`application/vnd.siren+json`)
-- [HAL]() (`application/hal+json`)
+- [Siren](https://github.com/kevinswiber/siren) (`application/vnd.siren+json`)
+- [HAL](http://stateless.co/hal_specification.html) (`application/hal+json`)
+- Plain JSON APIs described with [API Blueprint](Blueprint.md)
 
 ## Usage
 
