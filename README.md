@@ -1,3 +1,5 @@
+<img src="Hyperdrive.png" width=51 height=49 alt="Hyperdrive Logo" />
+
 # Hyperdrive
 
 A simple Hypermedia API client in Swift, which makes use of the [Representor](https://github.com/the-hypermedia-project/representor-swift) pattern.
