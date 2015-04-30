@@ -1,18 +1,20 @@
 # Hyperdrive
 
-A simple Hypermedia API client in Swift, which makes use of the [Representor](https://github.com/the-hypermedia-project/representor-swift) pattern.
-
-Hyperdrive supports the following content-types:
-
-- [Siren](https://github.com/kevinswiber/siren) (`application/vnd.siren+json`)
-- [HAL](http://stateless.co/hal_specification.html) (`application/hal+json`)
-- Plain JSON APIs described with [API Blueprint](Blueprint.md)
+Hyperdrive is a generic Hypermedia API client in Swift. Hyperdrive allows
+you to build an application which can evolve at run-time and does not
+hard-code implementation details such as URIs and HTTP methods into your
+application. You simply enter your API using the root URI and explore it's
+funcitonality at run-time by understanding the semantics of the domain
+instead of knowledge about the implementation.
 
 ## Usage
 
-Below is a short example of using Hyperdrive talking to a Hypermedia API. We
-will connect to a [Polls API](https://github.com/apiaryio/polls-api), an
-API which allows you to view questions, vote for them and create questions.
+Below is a short example of using Hyperdrive to communicate with a Hypermedia API.
+An API that offers information about how it works at run-time using hyperlinks.
+
+We're going to connect to a [Polls API](https://github.com/apiaryio/polls-api),
+an API which allows you to view questions, vote for them and create new
+questions with multiple-choice answers.
 
 ```swift
 let hyperdrive = Hyperdrive()
@@ -33,12 +35,12 @@ hyperdrive.enter("https://polls.apiblueprint.org/") { result in
 }
 ```
 
-On success, we have a Representor, which allows us to view the attributes
-associated with our resource, along with any relations to other resources in addition to
-any transitions to other states we may be able to perform.
+On success, we have a Representor, this is a structure representing the API
+resource. It includes relations to other resources along with information
+about how we can transition from the current state to another.
 
 Our client understands the semantics behind “questions” and explicitly
-looks for a link to them on our API.
+looks for a transition to them on our API.
 
 ```swift
 if let questions = representor.links["questions"] {
@@ -49,7 +51,8 @@ if let questions = representor.links["questions"] {
 }
 ```
 
-Since our API has a link to a collection of questions, let’s retrieve them and take a look:
+Since our API has a transition to a collection of questions, let’s retrieve
+them and take a look:
 
 ```swift
 hyperdrive.request(questions) { result in
@@ -77,7 +80,7 @@ if let questions = representor.representors["questions"] {
 }
 ```
 
-With every question, we will call our `viewQuestion` function:
+With every question in this resource, we will call our `viewQuestion` function:
 
 ```swift
 func viewQuestion(question:Representor<HTTPTransition>) {
@@ -154,6 +157,16 @@ create.attributes
 
 This allows you to generate user interface that can adapt to changes from the
 API. You can also use validation for an attribute.
+
+## Content Types
+
+Hyperdrive supports the following Hypermedia content-types:
+
+- [Siren](https://github.com/kevinswiber/siren) (`application/vnd.siren+json`)
+- [HAL](http://stateless.co/hal_specification.html) (`application/hal+json`)
+
+For APIs which do not support Hypermedia content types, you may use an API
+description in form of an [API Blueprint](Blueprint.md) to load these controls.
 
 ## Installation
 
