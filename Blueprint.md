@@ -65,8 +65,8 @@ For example, the following action will be shown when we enter our API:
 Which can be used via the following:
 
 ```swift
-if let questions = representor.links["questions"] {
-  // We have a link to questions
+if let questions = representor.transitions["questions"] {
+  // We have a transition to questions
 
   hyperdrive.request(questions) { result in
     // We've retreived the questions or received an error while trying to

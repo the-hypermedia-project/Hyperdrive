@@ -29,7 +29,7 @@ asynchronous function to be executed with a result from the API.
 hyperdrive.enter("https://polls.apiblueprint.org/") { result in
   switch result {
     case Success(let representor):
-      println("The API has offered us the following links: \(representor.links)")
+      println("The API has offered us the following transitions: \(representor.transitions)")
 
     case Failure(let error):
       println("Unfortunately there was an error: \(error)")
@@ -45,8 +45,8 @@ Our client understands the semantics behind “questions” and explicitly
 looks for a transition to them on our API.
 
 ```swift
-if let questions = representor.links["questions"] {
-  println("Our API has a link to a questions resource.")
+if let questions = representor.transitions["questions"] {
+  println("Our API has a transition to a questions resource.")
 } else {
   println("Looks like this API doesn’t support questions, or " +
           "the feature was removed.")
