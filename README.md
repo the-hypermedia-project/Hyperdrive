@@ -175,7 +175,7 @@ description in form of an [API Blueprint](Blueprint.md) to load these controls.
 [CocoaPods](http://cocoapods.org/) is the recommended installation method.
 
 ```ruby
-pod 'Hyperdrive', :git => 'Hyperdrive'
+pod 'Hyperdrive'
 ```
 
 ## License
