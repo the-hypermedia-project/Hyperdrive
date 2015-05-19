@@ -32,7 +32,7 @@ class HyperBlueprintTests: XCTestCase {
 
   func testRootResourceIncludesGETAction() {
     let representor = hyperdrive.rootRepresentor()
-    XCTAssertEqual(representor.links["questions"]!, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(representor.transitions["questions"]!.uri, "https://polls.apiblueprint.org/questions")
   }
 
   // MARK:

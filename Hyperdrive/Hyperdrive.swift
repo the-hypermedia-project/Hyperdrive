@@ -48,9 +48,7 @@ func absoluteRepresentor(baseURL:NSURL?)(original:Representor<HTTPTransition>) -
     return map(representors, absoluteRepresentor(baseURL))
   }
 
-  let links = map(original.links, absoluteURI(baseURL))
-
-  return Representor(transitions: transitions, representors: representors, attributes: original.attributes, links: links, metadata: original.metadata)
+  return Representor(transitions: transitions, representors: representors, attributes: original.attributes, metadata: original.metadata)
 }
 
 
