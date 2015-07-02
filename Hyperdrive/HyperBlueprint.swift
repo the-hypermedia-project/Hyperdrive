@@ -248,7 +248,8 @@ public class HyperBlueprint : Hyperdrive {
         for action in actions {
           let relativeURI = uriForAction(resource, action)
           let absoluteURI = absoluteURITemplate(self.baseURL.absoluteString!, relativeURI)
-          builder.addTransition(action.relation!, uri: absoluteURI)
+          let transition = HTTPTransition.from(resource: resource, action: action, URL: absoluteURI)
+          builder.addTransition(action.relation!, transition)
         }
       }
     }
