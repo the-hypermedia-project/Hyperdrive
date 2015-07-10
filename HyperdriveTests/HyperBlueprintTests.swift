@@ -90,4 +90,27 @@ class HyperBlueprintTests: XCTestCase {
 
     XCTAssertTrue(createTransition == nil)
   }
+
+  func testConstructingResponseShowsWebLinkingHeaders() {
+    let attributes = ["question": "Favourite Programming Language?"]
+    let URL = NSURL(string: "https://polls.apiblueprint.org/questions/5")!
+    let request = NSURLRequest(URL: URL)
+    let headers = [
+      "Content-Type": "application/json",
+      "Link": "<https://polls.apiblueprint.org/questions/6>; rel=\"next\", <https://polls.apiblueprint.org/questions/4>; rel=\"prev\"; type=\"foo\"",
+    ]
+    let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: headers)!
+    let body = NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)!
+
+    let representor = hyperdrive.constructResponse(request, response: response, body: body)!
+    let nextTransition = representor.transitions["next"]!
+    let prevTransition = representor.transitions["prev"]!
+
+    XCTAssertEqual(prevTransition.uri, "https://polls.apiblueprint.org/questions/4")
+    XCTAssertEqual(prevTransition.method, "GET")
+    XCTAssertEqual(prevTransition.suggestedContentTypes, ["foo"])
+    XCTAssertEqual(nextTransition.uri, "https://polls.apiblueprint.org/questions/6")
+    XCTAssertEqual(nextTransition.method, "GET")
+    XCTAssertEqual(nextTransition.suggestedContentTypes, [])
+  }
 }
