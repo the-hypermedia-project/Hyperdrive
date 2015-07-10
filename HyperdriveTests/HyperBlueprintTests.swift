@@ -74,4 +74,20 @@ class HyperBlueprintTests: XCTestCase {
     XCTAssertEqual(createTransition!.uri, "https://polls.apiblueprint.org/questions")
     XCTAssertEqual(createTransition!.method, "POST")
   }
+
+  func testConstructingResponseHidesTransitionsNotIncludedInAllowHeader() {
+    let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
+    let request = NSURLRequest(URL: URL)
+    let headers = [
+      "Allow": "HEAD, GET",
+      "Content-Type": "application/json",
+    ]
+    let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: headers)!
+    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+
+    let representor = hyperdrive.constructResponse(request, response: response, body: body)!
+    let createTransition = representor.transitions["create"]
+
+    XCTAssertTrue(createTransition == nil)
+  }
 }
