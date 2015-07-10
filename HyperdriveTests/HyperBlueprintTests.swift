@@ -18,7 +18,8 @@ class HyperBlueprintTests: XCTestCase {
 
   override func setUp() {
     let listAction = Action(name: "List", description: nil, method: "GET", parameters: [], uriTemplate: nil, relation: "questions", examples: nil)
-    let listResource = Resource(name: "Questions", description: nil, uriTemplate: "/questions", parameters: [], actions: [listAction])
+    let createAction = Action(name: "Create", description: nil, method: "POST", parameters: [], uriTemplate: nil, relation: "create", examples: nil)
+    let listResource = Resource(name: "Questions", description: nil, uriTemplate: "/questions", parameters: [], actions: [createAction, listAction])
 
     let viewAction = Action(name: "View", description: nil, method: "GET", parameters: [], uriTemplate: nil, relation: "question", examples: nil)
     let viewResource = Resource(name: "Detail", description: nil, uriTemplate: "/questions/{id}", parameters: [], actions: [viewAction])
@@ -58,5 +59,19 @@ class HyperBlueprintTests: XCTestCase {
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
 
     XCTAssertEqual(representor.attributes as NSDictionary, attributes)
+  }
+
+  func testConstructingResponseShowsTransitions() {
+    let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
+    let request = NSURLRequest(URL: URL)
+    let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: ["Content-Type": "application/json"])!
+    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+
+    let representor = hyperdrive.constructResponse(request, response: response, body: body)!
+    let createTransition = representor.transitions["create"]
+
+    XCTAssertTrue(createTransition != nil)
+    XCTAssertEqual(createTransition!.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(createTransition!.method, "POST")
   }
 }
