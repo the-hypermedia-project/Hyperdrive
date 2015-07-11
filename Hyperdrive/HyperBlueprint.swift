@@ -299,6 +299,14 @@ public class HyperBlueprint : Hyperdrive {
             }
           }
         }
+
+        if builder.transitions["self"] == nil {
+          if let URL = response.URL, URLString = URL.absoluteString {
+            builder.addTransition("self", uri: URLString) { builder in
+              builder.method = "GET"
+            }
+          }
+        }
       }
     }
 

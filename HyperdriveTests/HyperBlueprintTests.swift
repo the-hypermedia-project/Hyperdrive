@@ -75,6 +75,20 @@ class HyperBlueprintTests: XCTestCase {
     XCTAssertEqual(createTransition!.method, "POST")
   }
 
+  func testConstructingResponseIncludesSelfTransition() {
+    let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
+    let request = NSURLRequest(URL: URL)
+    let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: ["Content-Type": "application/json"])!
+    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+
+    let representor = hyperdrive.constructResponse(request, response: response, body: body)!
+    let transition = representor.transitions["self"]
+
+    XCTAssertTrue(transition != nil)
+    XCTAssertEqual(transition!.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(transition!.method, "GET")
+  }
+
   func testConstructingResponseHidesTransitionsNotIncludedInAllowHeader() {
     let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
     let request = NSURLRequest(URL: URL)

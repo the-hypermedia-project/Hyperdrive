@@ -1,38 +1,38 @@
 PODS:
-  - Representor (0.6.0):
-    - Representor/Core (= 0.6.0)
-    - Representor/HTTP (= 0.6.0)
-  - Representor/Core (0.6.0)
-  - Representor/HTTP (0.6.0):
-    - Representor/HTTP/Adapters (= 0.6.0)
-    - Representor/HTTP/Deserialization (= 0.6.0)
-    - Representor/HTTP/Transition (= 0.6.0)
-  - Representor/HTTP/Adapters (0.6.0):
-    - Representor/HTTP/Adapters/APIBlueprint (= 0.6.0)
-    - Representor/HTTP/Adapters/HAL (= 0.6.0)
-    - Representor/HTTP/Adapters/Siren (= 0.6.0)
-  - Representor/HTTP/Adapters/APIBlueprint (0.6.0):
+  - Representor (0.6.1):
+    - Representor/Core (= 0.6.1)
+    - Representor/HTTP (= 0.6.1)
+  - Representor/Core (0.6.1)
+  - Representor/HTTP (0.6.1):
+    - Representor/HTTP/Adapters (= 0.6.1)
+    - Representor/HTTP/Deserialization (= 0.6.1)
+    - Representor/HTTP/Transition (= 0.6.1)
+  - Representor/HTTP/Adapters (0.6.1):
+    - Representor/HTTP/Adapters/APIBlueprint (= 0.6.1)
+    - Representor/HTTP/Adapters/HAL (= 0.6.1)
+    - Representor/HTTP/Adapters/Siren (= 0.6.1)
+  - Representor/HTTP/Adapters/APIBlueprint (0.6.1):
     - Representor/HTTP/Transition
-  - Representor/HTTP/Adapters/HAL (0.6.0):
+  - Representor/HTTP/Adapters/HAL (0.6.1):
     - Representor/HTTP/Transition
-  - Representor/HTTP/Adapters/Siren (0.6.0):
+  - Representor/HTTP/Adapters/Siren (0.6.1):
     - Representor/HTTP/Transition
-  - Representor/HTTP/Deserialization (0.6.0):
+  - Representor/HTTP/Deserialization (0.6.1):
     - Representor/HTTP/Adapters/HAL
     - Representor/HTTP/Adapters/Siren
     - Representor/HTTP/Transition
-  - Representor/HTTP/Transition (0.6.0):
+  - Representor/HTTP/Transition (0.6.1):
     - Representor/Core
   - URITemplate (1.2.0)
   - WebLinking (0.2.0)
 
 DEPENDENCIES:
-  - Representor (~> 0.6.0)
+  - Representor (~> 0.6.1)
   - URITemplate (~> 1.2)
   - WebLinking (~> 0.2.0)
 
 SPEC CHECKSUMS:
-  Representor: 4e5f5bf36a899e05205f446f23705ed4d8121c29
+  Representor: 7675c4253ce7555c46a6f83cf4bba0ad6648994e
   URITemplate: 0dbf40f0e378eb9c6d04cc08e6101fb82d126dc3
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
 
