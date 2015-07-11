@@ -9,6 +9,7 @@
 import Foundation
 import Representor
 import URITemplate
+import WebLinking
 
 
 private func flatMap<T, U>(source:[T], transform:(T -> U?)) -> [U] {
@@ -285,6 +286,18 @@ public class HyperBlueprint : Hyperdrive {
           }
 
           self.addTransitions(resource, parameters: parameters, builder: builder, allowedMethods: allowedMethods)
+        }
+
+        for link in response.links {
+          if let relation = link.relationType {
+            builder.addTransition(relation, uri: link.uri) { builder in
+              builder.method = "GET"
+
+              if let type = link.type {
+                builder.suggestedContentTypes = [type]
+              }
+            }
+          }
         }
       }
     }

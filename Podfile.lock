@@ -24,13 +24,16 @@ PODS:
   - Representor/HTTP/Transition (0.6.0):
     - Representor/Core
   - URITemplate (1.2.0)
+  - WebLinking (0.2.0)
 
 DEPENDENCIES:
   - Representor (~> 0.6.0)
   - URITemplate (~> 1.2)
+  - WebLinking (~> 0.2.0)
 
 SPEC CHECKSUMS:
   Representor: 4e5f5bf36a899e05205f446f23705ed4d8121c29
   URITemplate: 0dbf40f0e378eb9c6d04cc08e6101fb82d126dc3
+  WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.38.0.beta.2
