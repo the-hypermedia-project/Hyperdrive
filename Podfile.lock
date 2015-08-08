@@ -9,15 +9,19 @@ PODS:
     - Representor/HTTP/Transition (= 0.6.1)
   - Representor/HTTP/Adapters (0.6.1):
     - Representor/HTTP/Adapters/APIBlueprint (= 0.6.1)
+    - Representor/HTTP/Adapters/GitHub (= 0.6.1)
     - Representor/HTTP/Adapters/HAL (= 0.6.1)
     - Representor/HTTP/Adapters/Siren (= 0.6.1)
   - Representor/HTTP/Adapters/APIBlueprint (0.6.1):
+    - Representor/HTTP/Transition
+  - Representor/HTTP/Adapters/GitHub (0.6.1):
     - Representor/HTTP/Transition
   - Representor/HTTP/Adapters/HAL (0.6.1):
     - Representor/HTTP/Transition
   - Representor/HTTP/Adapters/Siren (0.6.1):
     - Representor/HTTP/Transition
   - Representor/HTTP/Deserialization (0.6.1):
+    - Representor/HTTP/Adapters/GitHub
     - Representor/HTTP/Adapters/HAL
     - Representor/HTTP/Adapters/Siren
     - Representor/HTTP/Transition
@@ -27,13 +31,24 @@ PODS:
   - WebLinking (0.2.0)
 
 DEPENDENCIES:
-  - Representor (~> 0.6.1)
+  - Representor (from `https://github.com/the-hypermedia-project/representor-swift.git`,
+    branch `zdne/github-adapter`)
   - URITemplate (~> 1.2)
   - WebLinking (~> 0.2.0)
 
+EXTERNAL SOURCES:
+  Representor:
+    :branch: zdne/github-adapter
+    :git: https://github.com/the-hypermedia-project/representor-swift.git
+
+CHECKOUT OPTIONS:
+  Representor:
+    :commit: 4f7dabad3049729474c78539fd32be3bf20a47b5
+    :git: https://github.com/the-hypermedia-project/representor-swift.git
+
 SPEC CHECKSUMS:
-  Representor: 7675c4253ce7555c46a6f83cf4bba0ad6648994e
+  Representor: 6c14b054b2f357aeb7076c18a6015e6a44890b9e
   URITemplate: 0dbf40f0e378eb9c6d04cc08e6101fb82d126dc3
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
 
-COCOAPODS: 0.38.0.beta.2
+COCOAPODS: 0.38.2

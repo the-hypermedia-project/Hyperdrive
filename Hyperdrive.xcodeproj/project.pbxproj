@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19649AAC1B763C3D00D638BE /* HyperdriveGitHubTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19649AAB1B763C3D00D638BE /* HyperdriveGitHubTest.swift */; };
 		2742E06D1AE02EA8009616F7 /* HyperBlueprintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */; };
 		2791DAA91AE02EED008CDF7E /* HyperBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */; };
 		27DCA52A1AD57C7800849B15 /* Hyperdrive.h in Headers */ = {isa = PBXBuildFile; fileRef = 27DCA5291AD57C7800849B15 /* Hyperdrive.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -14,6 +15,7 @@
 		27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */; };
 		27DCA5411AD57FFA00849B15 /* Hyperdrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */; };
 		C9B3E6FD0D21CF6CAA491ADC /* Pods_HyperdriveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FA357945C264820E4FC2CDFA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6267C65CD34047957458F441 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19649AAB1B763C3D00D638BE /* HyperdriveGitHubTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperdriveGitHubTest.swift; sourceTree = "<group>"; };
 		2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprintTests.swift; sourceTree = "<group>"; };
 		2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprint.swift; sourceTree = "<group>"; };
 		27DCA5241AD57C7700849B15 /* Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,6 +40,7 @@
 		27DCA5351AD57C7800849B15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperdriveTests.swift; sourceTree = "<group>"; };
 		27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hyperdrive.swift; sourceTree = "<group>"; };
+		6267C65CD34047957458F441 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D8CAA70A300D3A60F8C3DB /* Pods-Hyperdrive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyperdrive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive.debug.xcconfig"; sourceTree = "<group>"; };
 		BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyperdriveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */,
+				FA357945C264820E4FC2CDFA /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			children = (
 				27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */,
 				2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */,
+				19649AAB1B763C3D00D638BE /* HyperdriveGitHubTest.swift */,
 				27DCA5341AD57C7800849B15 /* Supporting Files */,
 			);
 			path = HyperdriveTests;
@@ -130,6 +136,7 @@
 			children = (
 				C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */,
 				BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */,
+				6267C65CD34047957458F441 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -361,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2742E06D1AE02EA8009616F7 /* HyperBlueprintTests.swift in Sources */,
+				19649AAC1B763C3D00D638BE /* HyperdriveGitHubTest.swift in Sources */,
 				27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
