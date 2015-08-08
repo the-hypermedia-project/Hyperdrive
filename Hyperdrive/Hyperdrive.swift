@@ -91,9 +91,16 @@ public class Hyperdrive {
 
   private let session:NSURLSession
 
-  public init() {
+  /// An array of the supported content types in order of preference
+  let preferredContentTypes:[String]
+
+  /** Initialize hyperdrive
+  :param: preferredContentTypes An optional array of the supported content types in order of preference, when this is nil. All types supported by the Representor will be used.
+  */
+  public init(preferredContentTypes:[String]? = nil) {
     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
     session = NSURLSession(configuration: configuration)
+    self.preferredContentTypes = preferredContentTypes ?? HTTPDeserialization.preferredContentTypes
   }
 
   // MARK: -
@@ -111,7 +118,7 @@ public class Hyperdrive {
 
     if let URL = NSURL(string: expandedURI) {
       let request = NSMutableURLRequest(URL: URL)
-      request.setValue("application/vnd.siren+json; application/hal+json", forHTTPHeaderField: "Accept")
+      request.setValue("; ".join(preferredContentTypes), forHTTPHeaderField: "Accept")
       return .Success(request)
     }
 
