@@ -14,7 +14,7 @@ import Hyperdrive
 class GitHubAdapterTests: XCTestCase {
 
   func testGitHubRoot() {
-    let hyperdrive = Hyperdrive()
+    let hyperdrive = Hyperdrive(preferredContentTypes: ["application/vnd.github.v3+json"])
     
     let expectation = expectationWithDescription("...")
     
