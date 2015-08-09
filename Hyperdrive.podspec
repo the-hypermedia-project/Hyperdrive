@@ -12,7 +12,6 @@ Pod::Spec.new do |spec|
   spec.osx.deployment_target = '10.9'
   spec.requires_arc = true
   spec.dependency 'URITemplate', '~> 1.2'
-  spec.dependency 'Representor', '~> 0.6.1'
+  #spec.dependency 'Representor, :git => 'https://github.com/the-hypermedia-project/representor-swift.git', :branch => 'zdne/github-adapter'
   spec.dependency 'WebLinking', '~> 0.2.0'
 end
-
