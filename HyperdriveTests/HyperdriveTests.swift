@@ -33,6 +33,19 @@ class HyperdriveTests: XCTestCase {
     }
   }
 
+  func testConstructingRequestReturnsWithAcceptHeaderRequestUsingSuppliedContentTypes() {
+    hyperdrive = Hyperdrive(preferredContentTypes: ["application/hal+json"])
+    let result = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/")
+
+    switch result {
+    case .Success(let request):
+      let header = request.allHTTPHeaderFields!["Accept"] as! String
+      XCTAssertEqual(header, "application/hal+json")
+    case .Failure(let error):
+      XCTFail(error.description)
+    }
+  }
+
   func testConstructingRequestExpandsURITemplate() {
     let result = hyperdrive.constructRequest("https://hyperdrive-tests.fuller.li/{username}", parameters:["username": "kyle"])
 
