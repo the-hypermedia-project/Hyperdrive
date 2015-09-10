@@ -33,7 +33,7 @@ class HyperBlueprintTests: XCTestCase {
 
   func testRootResourceIncludesGETAction() {
     let representor = hyperdrive.rootRepresentor()
-    XCTAssertEqual(representor.transitions["questions"]!.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(representor.transitions["questions"]?.uri, "https://polls.apiblueprint.org/questions")
   }
 
   // MARK:
@@ -54,7 +54,7 @@ class HyperBlueprintTests: XCTestCase {
     let URL = NSURL(string: "https://polls.apiblueprint.org/questions/5")!
     let request = NSURLRequest(URL: URL)
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: ["Content-Type": "application/json"])!
-    let body = NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)!
+    let body = try! NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
 
@@ -65,7 +65,7 @@ class HyperBlueprintTests: XCTestCase {
     let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
     let request = NSURLRequest(URL: URL)
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: ["Content-Type": "application/json"])!
-    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+    let body = try! NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
     let createTransition = representor.transitions["create"]
@@ -79,14 +79,14 @@ class HyperBlueprintTests: XCTestCase {
     let URL = NSURL(string: "https://polls.apiblueprint.org/questions")!
     let request = NSURLRequest(URL: URL)
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: ["Content-Type": "application/json"])!
-    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+    let body = try! NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
     let transition = representor.transitions["self"]
 
-    XCTAssertTrue(transition != nil)
-    XCTAssertEqual(transition!.uri, "https://polls.apiblueprint.org/questions")
-    XCTAssertEqual(transition!.method, "GET")
+    XCTAssertNotNil(transition)
+    XCTAssertEqual(transition?.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(transition?.method, "GET")
   }
 
   func testConstructingResponseHidesTransitionsNotIncludedInAllowHeader() {
@@ -97,12 +97,12 @@ class HyperBlueprintTests: XCTestCase {
       "Content-Type": "application/json",
     ]
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: headers)!
-    let body = NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(0), error: nil)!
+    let body = try! NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
     let createTransition = representor.transitions["create"]
 
-    XCTAssertTrue(createTransition == nil)
+    XCTAssertNil(createTransition)
   }
 
   func testConstructingResponseShowsWebLinkingHeaders() {
@@ -114,7 +114,7 @@ class HyperBlueprintTests: XCTestCase {
       "Link": "<https://polls.apiblueprint.org/questions/6>; rel=\"next\", <https://polls.apiblueprint.org/questions/4>; rel=\"prev\"; type=\"foo\"",
     ]
     let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: headers)!
-    let body = NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)!
+    let body = try! NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
     let nextTransition = representor.transitions["next"]!
