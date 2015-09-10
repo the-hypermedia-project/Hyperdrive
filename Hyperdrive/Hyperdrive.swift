@@ -45,7 +45,7 @@ func absoluteRepresentor(baseURL:NSURL?)(original:Representor<HTTPTransition>) -
   }
 
   let representors = map(original.representors) { representors in
-    return map(representors, absoluteRepresentor(baseURL))
+    representors.map(absoluteRepresentor(baseURL))
   }
 
   return Representor(transitions: transitions, representors: representors, attributes: original.attributes, metadata: original.metadata)
@@ -95,7 +95,7 @@ public class Hyperdrive {
   let preferredContentTypes:[String]
 
   /** Initialize hyperdrive
-  :param: preferredContentTypes An optional array of the supported content types in order of preference, when this is nil. All types supported by the Representor will be used.
+  - parameter preferredContentTypes: An optional array of the supported content types in order of preference, when this is nil. All types supported by the Representor will be used.
   */
   public init(preferredContentTypes:[String]? = nil) {
     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -118,7 +118,7 @@ public class Hyperdrive {
 
     if let URL = NSURL(string: expandedURI) {
       let request = NSMutableURLRequest(URL: URL)
-      request.setValue("; ".join(preferredContentTypes), forHTTPHeaderField: "Accept")
+      request.setValue(preferredContentTypes.joinWithSeparator("; "), forHTTPHeaderField: "Accept")
       return .Success(request)
     }
 
@@ -140,7 +140,7 @@ public class Hyperdrive {
 
   func encodeAttributes(attributes:[String:AnyObject], suggestedContentTypes:[String]) -> NSData? {
     let JSONEncoder = { (attributes:[String:AnyObject]) -> NSData? in
-      return NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(0), error: nil)
+      return try? NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(rawValue: 0))
     }
 
     let encoders:[String:([String:AnyObject] -> NSData?)] = [

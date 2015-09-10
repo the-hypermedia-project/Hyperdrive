@@ -168,7 +168,6 @@
 				27DCA5201AD57C7700849B15 /* Frameworks */,
 				27DCA5211AD57C7700849B15 /* Headers */,
 				27DCA5221AD57C7700849B15 /* Resources */,
-				734A5F4E7359273DF31C6507 /* Embed Pods Frameworks */,
 				191FBFC099BD48A776447787 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -207,6 +206,8 @@
 		27DCA51B1AD57C7700849B15 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Apiary;
 				TargetAttributes = {
@@ -312,21 +313,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		734A5F4E7359273DF31C6507 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B7FAC856D8C40A12F99D333 /* Check Pods Manifest.lock */ = {
