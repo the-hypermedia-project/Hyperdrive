@@ -9,6 +9,7 @@
 import Foundation
 import Representor
 import URITemplate
+import Result
 
 
 /// Map a dictionaries values
@@ -52,35 +53,9 @@ func absoluteRepresentor(baseURL:NSURL?)(original:Representor<HTTPTransition>) -
 }
 
 
-/// An enumeration representing a Hyperdrive result, containing either a success Representor or a Failure error
-public enum Result {
-  /// The operation succeeded and returned a Representor
-  case Success(Representor<HTTPTransition>)
-
-  /// The operation failed and returned an error
-  case Failure(NSError)
-}
-
-
-public enum RequestResult {
-  case Success(NSMutableURLRequest)
-  case Failure(NSError)
-
-  func flatMap(transform:(NSMutableURLRequest -> RequestResult)) -> RequestResult {
-    switch self {
-    case .Success(let request):
-      return transform(request)
-    case .Failure(let error):
-        return self
-    }
-  }
-}
-
-
-public enum ResponseResult {
-  case Success(NSHTTPURLResponse)
-  case Failure(NSError)
-}
+public typealias RepresentorResult = Result<Representor<HTTPTransition>, NSError>
+public typealias RequestResult = Result<NSMutableURLRequest, NSError>
+public typealias ResponseResult = Result<NSHTTPURLResponse, NSError>
 
 
 /// A hypermedia API client
@@ -106,7 +81,7 @@ public class Hyperdrive {
   // MARK: -
 
   /// Enter a hypermedia API given the root URI
-  public func enter(uri:String, completion:(Result -> Void)) {
+  public func enter(uri:String, completion:(RepresentorResult -> Void)) {
     request(uri, completion:completion)
   }
 
@@ -116,25 +91,23 @@ public class Hyperdrive {
   public func constructRequest(uri:String, parameters:[String:AnyObject]? = nil) -> RequestResult {
     let expandedURI = URITemplate(template: uri).expand(parameters ?? [:])
 
-    if let URL = NSURL(string: expandedURI) {
+    let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
+    return Result(NSURL(string: expandedURI), failWith: error).map { URL in
       let request = NSMutableURLRequest(URL: URL)
       request.setValue(preferredContentTypes.joinWithSeparator("; "), forHTTPHeaderField: "Accept")
-      return .Success(request)
+      return request
     }
-
-    let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
-    return .Failure(error)
   }
 
   public func constructRequest(transition:HTTPTransition, parameters:[String:AnyObject]?  = nil, attributes:[String:AnyObject]? = nil) -> RequestResult {
-    return constructRequest(transition.uri, parameters:parameters).flatMap { request in
+    return constructRequest(transition.uri, parameters:parameters).map { request in
       request.HTTPMethod = transition.method
 
       if let attributes = attributes {
         request.HTTPBody = self.encodeAttributes(attributes, suggestedContentTypes: transition.suggestedContentTypes)
       }
 
-      return .Success(request)
+      return request
     }
   }
 
@@ -169,7 +142,7 @@ public class Hyperdrive {
 
   // MARK: Perform requests
 
-  func request(request:NSURLRequest, completion:(Result -> Void)) {
+  func request(request:NSURLRequest, completion:(RepresentorResult -> Void)) {
     let dataTask = session.dataTaskWithRequest(request, completionHandler: { (body, response, error) -> Void in
       if let error = error {
         dispatch_async(dispatch_get_main_queue()) {
@@ -187,7 +160,7 @@ public class Hyperdrive {
   }
 
   /// Perform a request with a given URI and parameters
-  public func request(uri:String, parameters:[String:AnyObject]? = nil, completion:(Result -> Void)) {
+  public func request(uri:String, parameters:[String:AnyObject]? = nil, completion:(RepresentorResult -> Void)) {
     switch constructRequest(uri, parameters: parameters) {
     case .Success(let request):
       self.request(request, completion:completion)
@@ -197,7 +170,7 @@ public class Hyperdrive {
   }
 
   /// Perform a transition with a given parameters and attributes
-  public func request(transition:HTTPTransition, parameters:[String:AnyObject]? = nil, attributes:[String:AnyObject]? = nil, completion:(Result -> Void)) {
+  public func request(transition:HTTPTransition, parameters:[String:AnyObject]? = nil, attributes:[String:AnyObject]? = nil, completion:(RepresentorResult -> Void)) {
     let result = constructRequest(transition, parameters: parameters, attributes: attributes)
 
     switch result {

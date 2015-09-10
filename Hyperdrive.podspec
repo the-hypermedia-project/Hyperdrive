@@ -14,5 +14,6 @@ Pod::Spec.new do |spec|
   spec.dependency 'URITemplate', '~> 1.3'
   spec.dependency 'Representor', '~> 0.7.0'
   spec.dependency 'WebLinking', '~> 1.0.0'
+  spec.dependency 'Result', '~> 0.6-beta.1'
 end
 

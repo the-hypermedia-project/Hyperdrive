@@ -10,19 +10,8 @@ import Foundation
 import Representor
 import URITemplate
 import WebLinking
+import Result
 
-
-private func flatMap<T, U>(source:[T], transform:(T -> U?)) -> [U] {
-  var output = [U]()
-
-  for item in source {
-    if let item = transform(item) {
-      output.append(item)
-    }
-  }
-
-  return output
-}
 
 func absoluteURITemplate(baseURL:String, uriTemplate:String) -> String {
   switch (baseURL.hasSuffix("/"), uriTemplate.hasPrefix("/")) {
@@ -50,61 +39,25 @@ private func uriForAction(resource:Resource, action:Action) -> String {
   return uriTemplate
 }
 
-
-private enum DecodeArrayResult {
-  case Success([[String:AnyObject]])
-  case Failure(NSError)
+private func decodeJSON(data:NSData) -> Result<AnyObject, NSError> {
+  return Result(try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)))
 }
 
-private func decodeJSONAttributesArray(data:NSData) -> DecodeArrayResult {
-  var error:NSError?
-  let attributes: AnyObject?
-  do {
-    attributes = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
-  } catch var error1 as NSError {
-    error = error1
-    attributes = nil
+private func decodeJSON<T>(data:NSData) -> Result<T, NSError> {
+  return Result(try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))).flatMap {
+    if let value = $0 as? T {
+      return .Success(value)
+    }
+
+    let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Returned JSON object was not of expected type."])
+    return .Failure(invaidJSONError)
   }
-
-  if let error = error {
-    return .Failure(error)
-  } else if let attributes = attributes as? [[String:AnyObject]] {
-    return .Success(attributes)
-  }
-
-  let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode JSON attributes array"])
-  return .Failure(invaidJSONError)
-}
-
-private enum DecodeAttributesResult {
-    case Success([String:AnyObject])
-    case Failure(NSError)
-}
-
-private func decodeJSONAttributes(data:NSData) -> DecodeAttributesResult {
-  var error:NSError?
-  let attributes: AnyObject?
-  do {
-    attributes = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
-  } catch var error1 as NSError {
-    error = error1
-    attributes = nil
-  }
-
-  if let error = error {
-    return .Failure(error)
-  } else if let attributes = attributes as? [String:AnyObject] {
-    return .Success(attributes)
-  }
-
-  let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode JSON attributes"])
-  return .Failure(invaidJSONError)
 }
 
 extension Resource {
   var dataStructure:[String:AnyObject]? {
     return content.filter {
-      element in (element["element"] as? String ?? "") == "dataStructure"
+      element in (element["element"] as? String) == "dataStructure"
     }.first
   }
 
@@ -124,10 +77,8 @@ extension Resource {
 }
 
 
-public enum HyperBlueprintResult {
-    case Success(Hyperdrive, Representor<HTTPTransition>)
-    case Failure(NSError)
-}
+public typealias HyperBlueprintResultSuccess = (Hyperdrive, Representor<HTTPTransition>)
+public typealias HyperBlueprintResult = Result<HyperBlueprintResultSuccess, NSError>
 
 /// A subclass of Hyperdrive which supports requests from an API Blueprint
 public class HyperBlueprint : Hyperdrive {
@@ -183,17 +134,8 @@ public class HyperBlueprint : Hyperdrive {
           completion(.Failure(error))
         }
       } else if let body = body {
-        var error:NSError?
-        let object: AnyObject?
-        do {
-          object = try NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(rawValue: 0))
-        } catch var error1 as NSError {
-          error = error1
-          object = nil
-        } catch {
-          fatalError()
-        }
-        if let parseResult = object as? [String:AnyObject] {
+        switch decodeJSON(body) {
+        case .Success(let parseResult):
           if let ast = parseResult["ast"] as? [String:AnyObject] {
             let blueprint = Blueprint(ast: ast)
             self.enter(blueprint, baseURL: baseURL, completion: completion)
@@ -202,9 +144,9 @@ public class HyperBlueprint : Hyperdrive {
               completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid API Blueprint AST."])))
             }
           }
-        } else {
+        case .Failure(let error):
           dispatch_async(dispatch_get_main_queue()) {
-            completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Unhandled error."])))
+            completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid API Blueprint AST."])))
           }
         }
       } else {
@@ -222,7 +164,7 @@ public class HyperBlueprint : Hyperdrive {
       let hyperdrive = self.init(blueprint: blueprint, baseURL: baseURL)
       let representor = hyperdrive.rootRepresentor()
       dispatch_async(dispatch_get_main_queue()) {
-        completion(.Success(hyperdrive, representor))
+        completion(.Success((hyperdrive, representor)))
       }
     } else {
       let host = (blueprint.metadata).filter { metadata in metadata.name == "HOST" }.first
@@ -231,7 +173,7 @@ public class HyperBlueprint : Hyperdrive {
           let hyperdrive = self.init(blueprint: blueprint, baseURL: baseURL)
           let representor = hyperdrive.rootRepresentor()
           dispatch_async(dispatch_get_main_queue()) {
-            completion(.Success(hyperdrive, representor))
+            completion(.Success((hyperdrive, representor)))
           }
           return
         }
@@ -276,9 +218,9 @@ public class HyperBlueprint : Hyperdrive {
   }
 
   public override func constructRequest(uri: String, parameters: [String : AnyObject]?) -> RequestResult {
-    return super.constructRequest(uri, parameters: parameters).flatMap { request in
+    return super.constructRequest(uri, parameters: parameters).map { request in
       request.setValue("application/json", forHTTPHeaderField: "Accept")
-      return .Success(request)
+      return request
     }
   }
 
@@ -295,7 +237,7 @@ public class HyperBlueprint : Hyperdrive {
 
         self.addResponse(resource, parameters: parameters, request: request, response: response, body: body, builder: builder)
 
-        if let uri = response.URL?.absoluteString {
+        if response.URL != nil {
           var allowedMethods:[String]? = nil
 
           if let allow = response.allHeaderFields["Allow"] as? String {
@@ -356,20 +298,9 @@ public class HyperBlueprint : Hyperdrive {
 
   func addResponse(resource:Resource, parameters:[String:AnyObject]?, request:NSURLRequest, response:NSHTTPURLResponse, body:NSData?, builder:RepresentorBuilder<HTTPTransition>) {
     if let body = body {
-      if let contentType = response.MIMEType {
-        if contentType == "application/json" {
-          var error:NSError?
-          let object: AnyObject?
-          do {
-            object = try NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(rawValue: 0))
-          } catch var error1 as NSError {
-            error = error1
-            object = nil
-          }
-
-          if let object: AnyObject = object {
-            addObjectResponse(resource, parameters: parameters, request: request, response: response, object: object, builder: builder)
-          }
+      if response.MIMEType == "application/json" {
+        if let object = decodeJSON(body).value {
+          addObjectResponse(resource, parameters: parameters, request: request, response: response, object: object, builder: builder)
         }
       }
     }
@@ -379,8 +310,8 @@ public class HyperBlueprint : Hyperdrive {
   public func parameters(resource  resource:Resource, attributes:[String:AnyObject]) -> [String:AnyObject]? {
     // By default, check if the attributes includes a URL we can use to extract the parameters
     if let url = attributes["url"] as? String {
-      return flatMap(resources) { resource in
-        return URITemplate(template: resource.uriTemplate).extract(url)
+      return resources.flatMap {
+        URITemplate(template: $0.uriTemplate).extract(url)
       }.first
     }
 
