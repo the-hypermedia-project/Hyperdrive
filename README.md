@@ -28,11 +28,11 @@ asynchronous function to be executed with a result from the API.
 ```swift
 hyperdrive.enter("https://polls.apiblueprint.org/") { result in
   switch result {
-    case Success(let representor):
-      println("The API has offered us the following transitions: \(representor.transitions)")
+    case .Success(let representor):
+      print("The API has offered us the following transitions: \(representor.transitions)")
 
-    case Failure(let error):
-      println("Unfortunately there was an error: \(error)")
+    case .Failure(let error):
+      print("Unfortunately there was an error: \(error)")
   }
 }
 ```
@@ -46,9 +46,9 @@ looks for a transition to them on our API.
 
 ```swift
 if let questions = representor.transitions["questions"] {
-  println("Our API has a transition to a questions resource.")
+  print("Our API has a transition to a questions resource.")
 } else {
-  println("Looks like this API doesn’t support questions, or " +
+  print("Looks like this API doesn’t support questions, or " +
           "the feature was removed.")
 }
 ```
@@ -59,11 +59,11 @@ them and take a look:
 ```swift
 hyperdrive.request(questions) { result in
   switch result {
-    case Success(let representor):
-      println("We’ve received a representor for the questions.")
+    case .Success(let representor):
+      print("We’ve received a representor for the questions.")
 
-    case Failure(let error):
-      println("There was a problem retreiving the questions: \(error)")
+    case .Failure(let error):
+      print("There was a problem retreiving the questions: \(error)")
   }
 }
 ```
@@ -77,8 +77,8 @@ if let questions = representor.representors["questions"] {
   // Let’s use map to call viewQuestion for each one
   map(questions, viewQuestion)
 } else {
-  println("Looks like there are no questions yet.")
-  println("Perhaps the API offers us the ability to create a question?")
+  print("Looks like there are no questions yet.")
+  print("Perhaps the API offers us the ability to create a question?")
 }
 ```
 
@@ -86,16 +86,16 @@ With every question in this resource, we will call our `viewQuestion` function:
 
 ```swift
 func viewQuestion(question:Representor<HTTPTransition>) {
-  println(question.attributes["question"])
+  print(question.attributes["question"])
 
   if let choices = question.representors["choices"] {
     for choice in choices {
       let text = choice.attributes["choice"]
       let votes = choice.attributes["votes"]
-      println('-> \(text) (\(votes))')
+      print('-> \(text) (\(votes))')
     }
   } else {
-    println("-> This question does not have any choices.")
+    print("-> This question does not have any choices.")
   }
 }
 ```
@@ -111,8 +111,8 @@ if let delete = question.transitions["delete"] {
   // We can perform this transition with Hyperdrive
   hyperdrive.request(delete)
 } else {
-  println("The API doesn’t offer us the ability to delete a question.")
-  println("Let’s gracefully handle the lack of this feature and " +
+  print("The API doesn’t offer us the ability to delete a question.")
+  print("Let’s gracefully handle the lack of this feature and " +
           "remove deletion from our user interface.")
 }
 ```
