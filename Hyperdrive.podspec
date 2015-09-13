@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'Hyperdrive'
-  spec.version = '0.1.2'
+  spec.version = '0.2.0'
   spec.summary = 'Swift Hypermedia API Client'
   spec.homepage = 'https://github.com/the-hypermedia-project/Hyperdrive'
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
