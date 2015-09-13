@@ -58,7 +58,7 @@ For example, the following action will be shown when we enter our API:
 ## Question Collection [/questions]
 + Attributes (array[Question])
 
-### List All Questions [POST]
+### List All Questions [GET]
 + Relation: questions
 ```
 
