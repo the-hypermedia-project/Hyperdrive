@@ -178,6 +178,12 @@ description in form of an [API Blueprint](Blueprint.md) to load these controls.
 pod 'Hyperdrive'
 ```
 
+## Elsehwere
+
+- [RxHyperdrive](https://github.com/kylef/RxHyperdrive) - RxSwift extensions for using Hyperdrive.
+- [Polls Application](https://github.com/apiaryio/polls-app) - An example iOS application talking to the Polls Hypermedia API.
+- [Starship](https://github.com/kylef/Starship) - A generic API client application for iOS using Hyperdrive.
+
 ## License
 
 Hyperdrive is released under the MIT license. See [LICENSE](LICENSE).
