@@ -33,7 +33,7 @@ class HyperBlueprintTests: XCTestCase {
 
   func testRootResourceIncludesGETAction() {
     let representor = hyperdrive.rootRepresentor()
-    XCTAssertEqual(representor.transitions["questions"]?.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(representor.transitions["questions"]?.first?.uri, "https://polls.apiblueprint.org/questions")
   }
 
   // MARK:
@@ -68,11 +68,11 @@ class HyperBlueprintTests: XCTestCase {
     let body = try! NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
-    let createTransition = representor.transitions["create"]
+    let createTransition = representor.transitions["create"]?.first
 
     XCTAssertTrue(createTransition != nil)
-    XCTAssertEqual(createTransition!.uri, "https://polls.apiblueprint.org/questions")
-    XCTAssertEqual(createTransition!.method, "POST")
+    XCTAssertEqual(createTransition?.uri, "https://polls.apiblueprint.org/questions")
+    XCTAssertEqual(createTransition?.method, "POST")
   }
 
   func testConstructingResponseIncludesSelfTransition() {
@@ -82,7 +82,7 @@ class HyperBlueprintTests: XCTestCase {
     let body = try! NSJSONSerialization.dataWithJSONObject([], options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
-    let transition = representor.transitions["self"]
+    let transition = representor.transitions["self"]?.first
 
     XCTAssertNotNil(transition)
     XCTAssertEqual(transition?.uri, "https://polls.apiblueprint.org/questions")
@@ -117,14 +117,14 @@ class HyperBlueprintTests: XCTestCase {
     let body = try! NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body: body)!
-    let nextTransition = representor.transitions["next"]!
-    let prevTransition = representor.transitions["prev"]!
+    let nextTransition = representor.transitions["next"]?.first
+    let prevTransition = representor.transitions["prev"]?.first
 
-    XCTAssertEqual(prevTransition.uri, "https://polls.apiblueprint.org/questions/4")
-    XCTAssertEqual(prevTransition.method, "GET")
-    XCTAssertEqual(prevTransition.suggestedContentTypes, ["foo"])
-    XCTAssertEqual(nextTransition.uri, "https://polls.apiblueprint.org/questions/6")
-    XCTAssertEqual(nextTransition.method, "GET")
-    XCTAssertEqual(nextTransition.suggestedContentTypes, [])
+    XCTAssertEqual(prevTransition?.uri, "https://polls.apiblueprint.org/questions/4")
+    XCTAssertEqual(prevTransition?.method, "GET")
+    XCTAssertEqual(prevTransition!.suggestedContentTypes, ["foo"])
+    XCTAssertEqual(nextTransition?.uri, "https://polls.apiblueprint.org/questions/6")
+    XCTAssertEqual(nextTransition?.method, "GET")
+    XCTAssertEqual(nextTransition!.suggestedContentTypes, [])
   }
 }

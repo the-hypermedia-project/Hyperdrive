@@ -30,17 +30,19 @@ func absoluteURI(baseURL:NSURL?)(uri:String) -> String {
 
 /// Traverses a representor and ensures that all URIs are absolute given a base URL
 func absoluteRepresentor(baseURL:NSURL?)(original:Representor<HTTPTransition>) -> Representor<HTTPTransition> {
-  let transitions = map(original.transitions) { transition in
-    return HTTPTransition(uri: absoluteURI(baseURL)(uri: transition.uri)) { builder in
-      builder.method = transition.method
-      builder.suggestedContentTypes = transition.suggestedContentTypes
+  let transitions = map(original.transitions) {
+    return $0.map { transition in
+      return HTTPTransition(uri: absoluteURI(baseURL)(uri: transition.uri)) { builder in
+        builder.method = transition.method
+        builder.suggestedContentTypes = transition.suggestedContentTypes
 
-      for (name, attribute) in transition.attributes {
-        builder.addAttribute(name, value: attribute.value, defaultValue: attribute.defaultValue)
-      }
+        for (name, attribute) in transition.attributes {
+          builder.addAttribute(name, value: attribute.value, defaultValue: attribute.defaultValue)
+        }
 
-      for (name, parameter) in transition.parameters {
-        builder.addParameter(name, value: parameter.value, defaultValue: parameter.defaultValue)
+        for (name, parameter) in transition.parameters {
+          builder.addParameter(name, value: parameter.value, defaultValue: parameter.defaultValue)
+        }
       }
     }
   }
@@ -177,6 +179,23 @@ public class Hyperdrive {
     case .Success(let request):
       self.request(request, completion:completion)
     case .Failure(let error):
+      completion(.Failure(error))
+    }
+  }
+
+  /// Perform a transition with a given parameters and attributes
+  public func request(transitions:[HTTPTransition], parameters:[String:AnyObject]? = nil, attributes:[String:AnyObject]? = nil, completion:(RepresentorResult -> Void)) {
+    if let transition = transitions.first {
+      let result = constructRequest(transition, parameters: parameters, attributes: attributes)
+
+      switch result {
+      case .Success(let request):
+        self.request(request, completion:completion)
+      case .Failure(let error):
+        completion(.Failure(error))
+      }
+    } else {
+      let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "No transitions given."])
       completion(.Failure(error))
     }
   }

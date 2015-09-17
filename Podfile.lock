@@ -28,14 +28,25 @@ PODS:
   - WebLinking (1.0.0)
 
 DEPENDENCIES:
-  - Representor (~> 0.7.0)
+  - Representor (from `https://github.com/the-hypermedia-project/representor-swift`,
+    branch `kylef/multiple-transitions`)
   - Result (~> 0.6-beta.1)
   - URITemplate (~> 1.3)
   - WebLinking (~> 1.0.0)
 
+EXTERNAL SOURCES:
+  Representor:
+    :branch: kylef/multiple-transitions
+    :git: https://github.com/the-hypermedia-project/representor-swift
+
+CHECKOUT OPTIONS:
+  Representor:
+    :commit: c8be34b7b10abca44522595ddf46cd56ebc13e7b
+    :git: https://github.com/the-hypermedia-project/representor-swift
+
 SPEC CHECKSUMS:
   Representor: 487b4efb0a39c2c2db258d40846d9915cd69b770
-  Result: 6c990ec4a72470672f9fc5b6fef009da0f6f40d1
+  Result: af24e3e57ab81005ec4221a53fd36dc1e7a52869
   URITemplate: 0ebbec80d1eb59a89e29db9b14c99d5908d3e574
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
 
