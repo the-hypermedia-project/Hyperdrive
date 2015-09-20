@@ -94,7 +94,7 @@ public class Hyperdrive {
     let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Creating NSURL from given URI failed"])
     return Result(NSURL(string: expandedURI), failWith: error).map { URL in
       let request = NSMutableURLRequest(URL: URL)
-      request.setValue(preferredContentTypes.joinWithSeparator("; "), forHTTPHeaderField: "Accept")
+      request.setValue(preferredContentTypes.joinWithSeparator(", "), forHTTPHeaderField: "Accept")
       return request
     }
   }

@@ -27,7 +27,7 @@ class HyperdriveTests: XCTestCase {
     switch result {
     case .Success(let request):
       let header = request.allHTTPHeaderFields!["Accept"]
-      XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
+      XCTAssertEqual(header, "application/vnd.siren+json, application/hal+json")
     case .Failure(let error):
       XCTFail(error.description)
     }
@@ -66,7 +66,7 @@ class HyperdriveTests: XCTestCase {
     switch result {
     case .Success(let request):
       let header = request.allHTTPHeaderFields!["Accept"]
-      XCTAssertEqual(header, "application/vnd.siren+json; application/hal+json")
+      XCTAssertEqual(header, "application/vnd.siren+json, application/hal+json")
     case .Failure(let error):
       XCTFail(error.description)
     }
