@@ -183,6 +183,7 @@ pod 'Hyperdrive'
 - [RxHyperdrive](https://github.com/kylef/RxHyperdrive) - RxSwift extensions for using Hyperdrive.
 - [Polls Application](https://github.com/apiaryio/polls-app) - An example iOS application talking to the Polls Hypermedia API.
 - [Starship](https://github.com/kylef/Starship) - A generic API client application for iOS using Hyperdrive.
+- [Mockingdrive](http://github.com/kylef/Mockingdrive) - Tool for easily stubbing Hypermedia HTTP requests in tests.
 
 ## License
 
