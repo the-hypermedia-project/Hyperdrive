@@ -120,7 +120,7 @@ public class HyperBlueprint : Hyperdrive {
   }
 
   class func enter(blueprint  blueprint: NSData, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
-    let parserURL = NSURL(string: "http://api.apiblueprint.org/parser")!
+    let parserURL = NSURL(string: "https://api.apiblueprint.org/parser")!
     let request = NSMutableURLRequest(URL: parserURL)
     request.HTTPMethod = "POST"
     request.HTTPBody = blueprint
