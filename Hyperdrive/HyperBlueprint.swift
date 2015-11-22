@@ -125,7 +125,7 @@ public class HyperBlueprint : Hyperdrive {
     request.HTTPMethod = "POST"
     request.HTTPBody = blueprint
     request.setValue("text/vnd.apiblueprint+markdown; version=1A", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/vnd.apiblueprint.parseresult.raw+json; version=1.0", forHTTPHeaderField: "Accept")
+    request.setValue("application/vnd.apiblueprint.parseresult+json; version=2.1", forHTTPHeaderField: "Accept")
 
     let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     session.dataTaskWithRequest(request) { (body, response, error) in
