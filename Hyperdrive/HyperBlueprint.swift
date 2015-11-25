@@ -120,12 +120,12 @@ public class HyperBlueprint : Hyperdrive {
   }
 
   class func enter(blueprint  blueprint: NSData, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
-    let parserURL = NSURL(string: "http://api.apiblueprint.org/parser")!
+    let parserURL = NSURL(string: "https://api.apiblueprint.org/parser")!
     let request = NSMutableURLRequest(URL: parserURL)
     request.HTTPMethod = "POST"
     request.HTTPBody = blueprint
     request.setValue("text/vnd.apiblueprint+markdown; version=1A", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/vnd.apiblueprint.parseresult.raw+json; version=1.0", forHTTPHeaderField: "Accept")
+    request.setValue("application/vnd.apiblueprint.parseresult+json; version=2.1", forHTTPHeaderField: "Accept")
 
     let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     session.dataTaskWithRequest(request) { (body, response, error) in
