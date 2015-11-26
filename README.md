@@ -1,6 +1,6 @@
 <img src="Hyperdrive.png" width=51 height=49 alt="Hyperdrive Logo" />
 
-# Hyperdrive
+# Hyperdrive [![Build Status](https://travis-ci.org/the-hypermedia-project/Hyperdrive.svg?branch=master)](https://travis-ci.org/the-hypermedia-project/Hyperdrive)
 
 Hyperdrive is a generic Hypermedia API client in Swift. Hyperdrive allows
 you to build an application which can evolve at run-time and does not
