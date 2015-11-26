@@ -13,8 +13,8 @@
 		27DCA5301AD57C7800849B15 /* Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCA5241AD57C7700849B15 /* Hyperdrive.framework */; };
 		27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */; };
 		27DCA5411AD57FFA00849B15 /* Hyperdrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */; };
-		C9B3E6FD0D21CF6CAA491ADC /* Pods_HyperdriveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C9B3E6FD0D21CF6CAA491ADC /* Pods_HyperdriveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */; };
+		FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
