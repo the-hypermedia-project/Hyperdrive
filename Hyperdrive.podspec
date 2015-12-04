@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.dependency 'URITemplate', '~> 1.3'
   spec.dependency 'Representor', '~> 0.7.0'
-  spec.dependency 'WebLinking', '~> 1.0.0'
-  spec.dependency 'Result', '~> 0.6-beta.1'
+  spec.dependency 'WebLinking', '~> 1.0'
+  spec.dependency 'Result', '~> 1.0'
 end
 
