@@ -24,32 +24,36 @@ func map<K,V>(source:[K:V], transform:(V -> V)) -> [K:V] {
 }
 
 /// Returns an absolute URI for a URI given a base URL
-func absoluteURI(baseURL:NSURL?)(uri:String) -> String {
-  return NSURL(string: uri, relativeToURL: baseURL)?.absoluteString ?? uri
+func absoluteURI(baseURL: NSURL?) -> (uri: String) -> String {
+  return { uri in
+    return NSURL(string: uri, relativeToURL: baseURL)?.absoluteString ?? uri
+  }
 }
 
 /// Traverses a representor and ensures that all URIs are absolute given a base URL
-func absoluteRepresentor(baseURL:NSURL?)(original:Representor<HTTPTransition>) -> Representor<HTTPTransition> {
-  let transitions = map(original.transitions) { transition in
-    return HTTPTransition(uri: absoluteURI(baseURL)(uri: transition.uri)) { builder in
-      builder.method = transition.method
-      builder.suggestedContentTypes = transition.suggestedContentTypes
+func absoluteRepresentor(baseURL: NSURL?) -> (original: Representor<HTTPTransition>) -> Representor<HTTPTransition> {
+  return { original in
+    let transitions = map(original.transitions) { transition in
+      return HTTPTransition(uri: absoluteURI(baseURL)(uri: transition.uri)) { builder in
+        builder.method = transition.method
+        builder.suggestedContentTypes = transition.suggestedContentTypes
 
-      for (name, attribute) in transition.attributes {
-        builder.addAttribute(name, value: attribute.value, defaultValue: attribute.defaultValue)
-      }
+        for (name, attribute) in transition.attributes {
+          builder.addAttribute(name, value: attribute.value, defaultValue: attribute.defaultValue)
+        }
 
-      for (name, parameter) in transition.parameters {
-        builder.addParameter(name, value: parameter.value, defaultValue: parameter.defaultValue)
+        for (name, parameter) in transition.parameters {
+          builder.addParameter(name, value: parameter.value, defaultValue: parameter.defaultValue)
+        }
       }
     }
-  }
 
-  let representors = map(original.representors) { representors in
-    representors.map(absoluteRepresentor(baseURL))
-  }
+    let representors = map(original.representors) { representors in
+      representors.map(absoluteRepresentor(baseURL))
+    }
 
-  return Representor(transitions: transitions, representors: representors, attributes: original.attributes, metadata: original.metadata)
+    return Representor(transitions: transitions, representors: representors, attributes: original.attributes, metadata: original.metadata)
+  }
 }
 
 
