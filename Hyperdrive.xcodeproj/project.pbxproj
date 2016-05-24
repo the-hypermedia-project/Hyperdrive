@@ -13,8 +13,8 @@
 		27DCA5301AD57C7800849B15 /* Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DCA5241AD57C7700849B15 /* Hyperdrive.framework */; };
 		27DCA5371AD57C7800849B15 /* HyperdriveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */; };
 		27DCA5411AD57FFA00849B15 /* Hyperdrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */; };
-		C9B3E6FD0D21CF6CAA491ADC /* Pods_HyperdriveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */; };
-		FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */; };
+		A512FF107F0A8D3DF56DFB44 /* Pods_Hyperdrive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC663371BB1F7CD60858276 /* Pods_Hyperdrive.framework */; };
+		F59FCC40476472F6548A9E57 /* Pods_HyperdriveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0D641020AC5EE3B8FBAB03 /* Pods_HyperdriveTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08FF4DB12042D042D7177277 /* Pods-Hyperdrive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyperdrive.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive.release.xcconfig"; sourceTree = "<group>"; };
+		10C550B14CC69F34735A972D /* Pods-HyperdriveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperdriveTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests.release.xcconfig"; sourceTree = "<group>"; };
 		2742E06C1AE02EA8009616F7 /* HyperBlueprintTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprintTests.swift; sourceTree = "<group>"; };
 		2791DAA81AE02EED008CDF7E /* HyperBlueprint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperBlueprint.swift; sourceTree = "<group>"; };
 		27DCA5241AD57C7700849B15 /* Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,12 +39,10 @@
 		27DCA5351AD57C7800849B15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27DCA5361AD57C7800849B15 /* HyperdriveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperdriveTests.swift; sourceTree = "<group>"; };
 		27DCA5401AD57FFA00849B15 /* Hyperdrive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hyperdrive.swift; sourceTree = "<group>"; };
-		65D8CAA70A300D3A60F8C3DB /* Pods-Hyperdrive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyperdrive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive.debug.xcconfig"; sourceTree = "<group>"; };
-		BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyperdriveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E0A8DF76B921B1FA84CAEAA4 /* Pods-HyperdriveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperdriveTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests.release.xcconfig"; sourceTree = "<group>"; };
-		E95D8A1D657563FD54E094A3 /* Pods-HyperdriveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperdriveTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests.debug.xcconfig"; sourceTree = "<group>"; };
-		ED761B3B1728E3788D884867 /* Pods-Hyperdrive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyperdrive.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive.release.xcconfig"; sourceTree = "<group>"; };
+		6D680F5185A6C6E321F44B05 /* Pods-HyperdriveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyperdriveTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AA7D46DADBBEB892EF553227 /* Pods-Hyperdrive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyperdrive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive.debug.xcconfig"; sourceTree = "<group>"; };
+		CD0D641020AC5EE3B8FBAB03 /* Pods_HyperdriveTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyperdriveTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAC663371BB1F7CD60858276 /* Pods_Hyperdrive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hyperdrive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCE9961D3FDE9C019F699642 /* Pods_Hyperdrive.framework in Frameworks */,
+				A512FF107F0A8D3DF56DFB44 /* Pods_Hyperdrive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,21 +59,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				27DCA5301AD57C7800849B15 /* Hyperdrive.framework in Frameworks */,
-				C9B3E6FD0D21CF6CAA491ADC /* Pods_HyperdriveTests.framework in Frameworks */,
+				F59FCC40476472F6548A9E57 /* Pods_HyperdriveTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06242931A0A7EF0169C17091 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EAC663371BB1F7CD60858276 /* Pods_Hyperdrive.framework */,
+				CD0D641020AC5EE3B8FBAB03 /* Pods_HyperdriveTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		10E3A777EC2F31101270C64E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AA7D46DADBBEB892EF553227 /* Pods-Hyperdrive.debug.xcconfig */,
+				08FF4DB12042D042D7177277 /* Pods-Hyperdrive.release.xcconfig */,
+				6D680F5185A6C6E321F44B05 /* Pods-HyperdriveTests.debug.xcconfig */,
+				10C550B14CC69F34735A972D /* Pods-HyperdriveTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		27DCA51A1AD57C7700849B15 = {
 			isa = PBXGroup;
 			children = (
 				27DCA5261AD57C7700849B15 /* Hyperdrive */,
 				27DCA5331AD57C7800849B15 /* HyperdriveTests */,
 				27DCA5251AD57C7700849B15 /* Products */,
-				C909FA7F7D1E7DF54FDDC0AA /* Pods */,
-				8620EAE0404700E45EC2033C /* Frameworks */,
+				10E3A777EC2F31101270C64E /* Pods */,
+				06242931A0A7EF0169C17091 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -125,26 +145,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8620EAE0404700E45EC2033C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C39D0C6FBCAF7BC694DC6163 /* Pods_Hyperdrive.framework */,
-				BB9F462C64D2EC3F27D10978 /* Pods_HyperdriveTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C909FA7F7D1E7DF54FDDC0AA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				65D8CAA70A300D3A60F8C3DB /* Pods-Hyperdrive.debug.xcconfig */,
-				ED761B3B1728E3788D884867 /* Pods-Hyperdrive.release.xcconfig */,
-				E95D8A1D657563FD54E094A3 /* Pods-HyperdriveTests.debug.xcconfig */,
-				E0A8DF76B921B1FA84CAEAA4 /* Pods-HyperdriveTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -163,12 +163,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27DCA53A1AD57C7800849B15 /* Build configuration list for PBXNativeTarget "Hyperdrive" */;
 			buildPhases = (
-				3BDA50AEA7E7426508B2BBAA /* Check Pods Manifest.lock */,
+				E0ACB63369A27BC639BB3DCE /* 📦 Check Pods Manifest.lock */,
 				27DCA51F1AD57C7700849B15 /* Sources */,
 				27DCA5201AD57C7700849B15 /* Frameworks */,
 				27DCA5211AD57C7700849B15 /* Headers */,
 				27DCA5221AD57C7700849B15 /* Resources */,
-				191FBFC099BD48A776447787 /* Copy Pods Resources */,
+				9CB421115C6BC9F4BB3382A2 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -183,12 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27DCA53D1AD57C7800849B15 /* Build configuration list for PBXNativeTarget "HyperdriveTests" */;
 			buildPhases = (
-				9B7FAC856D8C40A12F99D333 /* Check Pods Manifest.lock */,
+				CCD394F90A38E6BC4BCA6C04 /* 📦 Check Pods Manifest.lock */,
 				27DCA52B1AD57C7800849B15 /* Sources */,
 				27DCA52C1AD57C7800849B15 /* Frameworks */,
 				27DCA52D1AD57C7800849B15 /* Resources */,
-				6E48D47BB0A5951F36165A96 /* Embed Pods Frameworks */,
-				6FE7C5E09919BA024245106B /* Copy Pods Resources */,
+				E1279185655B16FDC3E66697 /* 📦 Embed Pods Frameworks */,
+				5DF2CAEB3C76DB97835717FD /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,59 +255,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		191FBFC099BD48A776447787 /* Copy Pods Resources */ = {
+		5DF2CAEB3C76DB97835717FD /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3BDA50AEA7E7426508B2BBAA /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		6E48D47BB0A5951F36165A96 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FE7C5E09919BA024245106B /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,19 +270,64 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9B7FAC856D8C40A12F99D333 /* Check Pods Manifest.lock */ = {
+		9CB421115C6BC9F4BB3382A2 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCD394F90A38E6BC4BCA6C04 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E0ACB63369A27BC639BB3DCE /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E1279185655B16FDC3E66697 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -446,7 +446,7 @@
 		};
 		27DCA53B1AD57C7800849B15 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 65D8CAA70A300D3A60F8C3DB /* Pods-Hyperdrive.debug.xcconfig */;
+			baseConfigurationReference = AA7D46DADBBEB892EF553227 /* Pods-Hyperdrive.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -467,7 +467,7 @@
 		};
 		27DCA53C1AD57C7800849B15 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED761B3B1728E3788D884867 /* Pods-Hyperdrive.release.xcconfig */;
+			baseConfigurationReference = 08FF4DB12042D042D7177277 /* Pods-Hyperdrive.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -487,7 +487,7 @@
 		};
 		27DCA53E1AD57C7800849B15 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E95D8A1D657563FD54E094A3 /* Pods-HyperdriveTests.debug.xcconfig */;
+			baseConfigurationReference = 6D680F5185A6C6E321F44B05 /* Pods-HyperdriveTests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -500,13 +500,14 @@
 				);
 				INFOPLIST_FILE = HyperdriveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.apiary.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		27DCA53F1AD57C7800849B15 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0A8DF76B921B1FA84CAEAA4 /* Pods-HyperdriveTests.release.xcconfig */;
+			baseConfigurationReference = 10C550B14CC69F34735A972D /* Pods-HyperdriveTests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
