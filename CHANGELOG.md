@@ -1,5 +1,5 @@
 # Hyperdrive Changelog
-## Master
+## 0.3.0
 ### Bug Fixes
 
 - HyperBlueprint now supports the latest version of API Blueprint AST, which
