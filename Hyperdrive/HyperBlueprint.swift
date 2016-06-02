@@ -26,6 +26,8 @@ func absoluteURITemplate(baseURL:String, uriTemplate:String) -> String {
   }
 }
 
+private typealias Element = [String: AnyObject]
+
 private func uriForAction(resource:Resource, action:Action) -> String {
   var uriTemplate = resource.uriTemplate
 
@@ -59,14 +61,6 @@ extension Resource {
     return content.filter {
       element in (element["element"] as? String) == "dataStructure"
     }.first
-  }
-
-  var typeDefinition:[String:AnyObject]? {
-    return dataStructure?["typeDefinition"] as? [String:AnyObject]
-  }
-
-  var typeSpecification:[String:AnyObject]? {
-    return typeDefinition?["typeSpecification"] as? [String:AnyObject]
   }
 
   func actionForMethod(method:String) -> Action? {
@@ -125,7 +119,7 @@ public class HyperBlueprint : Hyperdrive {
     request.HTTPMethod = "POST"
     request.HTTPBody = blueprint
     request.setValue("text/vnd.apiblueprint+markdown; version=1A", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/vnd.apiblueprint.parseresult+json; version=2.1", forHTTPHeaderField: "Accept")
+    request.setValue("application/vnd.apiblueprint.parseresult+json; version=2.2", forHTTPHeaderField: "Accept")
 
     let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     session.dataTaskWithRequest(request) { (body, response, error) in
@@ -322,20 +316,16 @@ public class HyperBlueprint : Hyperdrive {
     if let attributes = object as? [String:AnyObject] {
       addAttributes([:], resource:resource, request: request, response: response, attributes: attributes, builder: builder)
     } else if let objects = object as? [[String:AnyObject]] {  // An array of other resources
-      if let typeSpecification = resource.typeSpecification {
-        let name = typeSpecification["name"] as? String ?? ""
-        if name == "array" {
-          if let nestedTypes = typeSpecification["nestedTypes"] as? [[String:AnyObject]] {
-            if let literal = nestedTypes.first?["literal"] as? String {
-              let relation = resource.actionForMethod(request.HTTPMethod ?? "GET")?.relation ?? "objects"
-              if let embeddedResource = self.resource(named: literal) {
-                for object in objects {
-                  builder.addRepresentor(relation) { builder in
-                    self.addObjectResponse(embeddedResource, parameters: parameters, request: request, response: response, object: object, builder: builder)
-                  }
-                }
-              }
-            }
+      let resourceName = resource.dataStructure
+        .flatMap(selectFirstContent)
+        .flatMap(selectFirstContent)
+        .flatMap { $0["element"] as? String }
+
+      if let resourceName = resourceName, embeddedResource = self.resource(named: resourceName) {
+        let relation = resource.actionForMethod(request.HTTPMethod ?? "GET")?.relation ?? "objects"
+        for object in objects {
+          builder.addRepresentor(relation) { builder in
+            self.addObjectResponse(embeddedResource, parameters: parameters, request: request, response: response, object: object, builder: builder)
           }
         }
       }
@@ -357,49 +347,17 @@ public class HyperBlueprint : Hyperdrive {
   func addAttributes(parameters:[String:AnyObject]?, resource:Resource, request:NSURLRequest, response:NSHTTPURLResponse, attributes:[String:AnyObject], builder:RepresentorBuilder<HTTPTransition>) {
     let action = actionForResource(resource, method: request.HTTPMethod!)
 
-    func resourceForAttribute(key:String) -> Resource? {
+    // Find's the Resource structure for an attribute in the current resource response
+    func resourceForAttribute(key: String) -> Resource? {
       // TODO: Rewrite this to use proper refract structures
-      if let dataStructure = resource.dataStructure {
-        if let sections = dataStructure["sections"] as? [[String:AnyObject]] {
-          if let section = sections.first {
-            if (section["class"] as? String ?? "") == "memberType" {
-              if let members = section["content"] as? [[String:AnyObject]] {
-                func findMember(member:[String:AnyObject]) -> Bool {
-                  if let content = member["content"] as? [String:AnyObject] {
-                    if let name = content["name"] as? [String:String] {
-                      if let literal = name["literal"] {
-                        return literal == key
-                      }
-                    }
-                  }
-
-                  return false
-                }
-
-                if let member = members.filter(findMember).first {
-                  if let content = member["content"] as? [String:AnyObject] {
-                    if let definition = content["valueDefinition"] as? [String:AnyObject] {
-                      if let typeDefinition = definition["typeDefinition"] as? [String:AnyObject] {
-                        if let typeSpecification = typeDefinition["typeSpecification"] as? [String:AnyObject] {
-                          if let name = typeSpecification["name"] as? String {
-                            if name == "array" {
-                              if let literal = (typeSpecification["nestedTypes"] as? [[String:AnyObject]])?.first?["literal"] as? String {
-                                return self.resource(named:literal)
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      
-      return nil
+        // Find the element value for the MSON object key
+       return resource.dataStructure
+          .flatMap(selectFirstContent)
+          .flatMap(selectElementArrayContent)
+          .flatMap(selectValueWithKey(key))  // finds the member's value for the member matching key
+          .flatMap(selectFirstContent)
+          .flatMap(selectElementValue)
+          .flatMap { self.resource(named: $0) }
     }
       
 
@@ -451,4 +409,37 @@ func +<K,V>(lhs:Dictionary<K,V>, rhs:Dictionary<K,V>) -> Dictionary<K,V> {
   }
 
   return dictionary
+}
+
+
+// Refract Traversal
+private func selectContent(element: Element) -> AnyObject? {
+  return element["content"]
+}
+
+private func selectElementArrayContent(element: Element) -> [Element]? {
+  return selectContent(element) as? [Element]
+}
+
+private func selectFirstContent(element: Element) -> Element? {
+  return selectElementArrayContent(element)?.first
+}
+
+/// Traverses a collection of member elements in search for the value for a key
+private func selectValueWithKey<T: Equatable>(key: T) -> [Element] -> Element? {
+  return { element in
+    return element.flatMap(selectContent)
+      .filter { element in
+        if let elementKey = element["key"] as? [String: AnyObject], keyContent = elementKey["content"] as? T {
+          return keyContent == key
+        }
+        return false
+      }
+      .flatMap { $0["value"] as? Element }
+      .first
+  }
+}
+
+private func selectElementValue(element: Element) -> String? {
+  return element["element"] as? String
 }
