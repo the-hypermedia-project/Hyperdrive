@@ -13,10 +13,10 @@ import WebLinking
 import Result
 
 
-func absoluteURITemplate(baseURL:String, uriTemplate:String) -> String {
+func absoluteURITemplate(_ baseURL:String, uriTemplate:String) -> String {
   switch (baseURL.hasSuffix("/"), uriTemplate.hasPrefix("/")) {
   case (true, true):
-    return baseURL.substringToIndex(baseURL.endIndex.predecessor()) + uriTemplate
+    return baseURL.substring(to: baseURL.characters.index(before: baseURL.endIndex)) + uriTemplate
   case (true, false):
     fallthrough
   case (false, true):
@@ -28,7 +28,7 @@ func absoluteURITemplate(baseURL:String, uriTemplate:String) -> String {
 
 private typealias Element = [String: AnyObject]
 
-private func uriForAction(resource:Resource, action:Action) -> String {
+private func uriForAction(_ resource:Resource, action:Action) -> String {
   var uriTemplate = resource.uriTemplate
 
   // Empty action uriTemplate == no template
@@ -41,18 +41,18 @@ private func uriForAction(resource:Resource, action:Action) -> String {
   return uriTemplate
 }
 
-private func decodeJSON(data:NSData) -> Result<AnyObject, NSError> {
-  return Result(try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)))
+private func decodeJSON(_ data:NSData) -> Result<AnyObject, NSError> {
+  return Result(try JSONSerialization.JSONObjectWithData(data as Data, options: JSONSerialization.ReadingOptions(rawValue: 0)))
 }
 
-private func decodeJSON<T>(data:NSData) -> Result<T, NSError> {
-  return Result(try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))).flatMap {
+private func decodeJSON<T>(_ data:Data) -> Result<T, NSError> {
+  return Result(try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0))).flatMap {
     if let value = $0 as? T {
-      return .Success(value)
+      return .success(value)
     }
 
     let invaidJSONError = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Returned JSON object was not of expected type."])
-    return .Failure(invaidJSONError)
+    return .failure(invaidJSONError)
   }
 }
 
@@ -63,7 +63,7 @@ extension Resource {
     }.first
   }
 
-  func actionForMethod(method:String) -> Action? {
+  func actionForMethod(_ method:String) -> Action? {
     return actions.filter { action in
       return action.method == method
     }.first
@@ -75,56 +75,56 @@ public typealias HyperBlueprintResultSuccess = (Hyperdrive, Representor<HTTPTran
 public typealias HyperBlueprintResult = Result<HyperBlueprintResultSuccess, NSError>
 
 /// A subclass of Hyperdrive which supports requests from an API Blueprint
-public class HyperBlueprint : Hyperdrive {
-  let baseURL:NSURL
+open class HyperBlueprint : Hyperdrive {
+  let baseURL:URL
   let blueprint:Blueprint
 
   // MARK: Entering an API
 
   /// Enter an API from a blueprint hosted on Apiary using the given domain
-  public class func enter(apiary  apiary: String, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
+  open class func enter(apiary: String, baseURL:URL? = nil, completion: @escaping ((HyperBlueprintResult) -> Void)) {
     let url = "https://jsapi.apiary.io/apis/\(apiary).apib"
     self.enter(blueprintURL: url, baseURL: baseURL, completion: completion)
   }
 
   /// Enter an API from a blueprint URI
-  public class func enter(blueprintURL  blueprintURL: String, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
-    if let URL = NSURL(string: blueprintURL) {
-      let request = NSMutableURLRequest(URL: URL)
+  open class func enter(blueprintURL: String, baseURL:URL? = nil, completion: @escaping ((HyperBlueprintResult) -> Void)) {
+    if let URL = URL(string: blueprintURL) {
+      let request = NSMutableURLRequest(url: URL)
       request.setValue("text/vnd.apiblueprint+markdown; version=1A", forHTTPHeaderField: "Accept")
-      let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-      session.dataTaskWithRequest(request) { (body, response, error) in
+      let session = URLSession(configuration: URLSessionConfiguration.default)
+      session.dataTask(with: request, completionHandler: { (body, response, error) in
         if let error = error {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             completion(.Failure(error))
           }
         } else if let body = body {
             self.enter(blueprint: body, baseURL: baseURL, completion: completion)
         } else {
           let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Response has no body."])
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             completion(.Failure(error))
           }
         }
-        }.resume()
+        }) .resume()
     } else {
       let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URI for blueprint \(blueprintURL)"])
-      completion(.Failure(error))
+      completion(.failure(error))
     }
   }
 
-  class func enter(blueprint  blueprint: NSData, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
-    let parserURL = NSURL(string: "https://api.apiblueprint.org/parser")!
-    let request = NSMutableURLRequest(URL: parserURL)
-    request.HTTPMethod = "POST"
-    request.HTTPBody = blueprint
+  class func enter(blueprint: Data, baseURL:URL? = nil, completion: @escaping ((HyperBlueprintResult) -> Void)) {
+    let parserURL = URL(string: "https://api.apiblueprint.org/parser")!
+    let request = NSMutableURLRequest(url: parserURL)
+    request.httpMethod = "POST"
+    request.httpBody = blueprint
     request.setValue("text/vnd.apiblueprint+markdown; version=1A", forHTTPHeaderField: "Content-Type")
     request.setValue("application/vnd.apiblueprint.parseresult+json; version=2.2", forHTTPHeaderField: "Accept")
 
-    let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-    session.dataTaskWithRequest(request) { (body, response, error) in
+    let session = URLSession(configuration: URLSessionConfiguration.default)
+    session.dataTask(with: request, completionHandler: { (body, response, error) in
       if let error = error {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           completion(.Failure(error))
         }
       } else if let body = body {
@@ -134,40 +134,40 @@ public class HyperBlueprint : Hyperdrive {
             let blueprint = Blueprint(ast: ast)
             self.enter(blueprint, baseURL: baseURL, completion: completion)
           } else {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid API Blueprint AST."])))
             }
           }
         case .Failure(let error):
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             completion(.Failure(error ?? NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid API Blueprint AST."])))
           }
         }
       } else {
         let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Response has no body."])
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           completion(.Failure(error))
         }
       }
-    }.resume()
+    }) .resume()
   }
 
   /// Enter an API with a blueprint
-  private class func enter(blueprint:Blueprint, baseURL:NSURL? = nil, completion: (HyperBlueprintResult -> Void)) {
+  fileprivate class func enter(_ blueprint:Blueprint, baseURL:URL? = nil, completion: @escaping ((HyperBlueprintResult) -> Void)) {
     if let baseURL = baseURL {
       let hyperdrive = self.init(blueprint: blueprint, baseURL: baseURL)
       let representor = hyperdrive.rootRepresentor()
-      dispatch_async(dispatch_get_main_queue()) {
-        completion(.Success((hyperdrive, representor)))
+      DispatchQueue.main.async {
+        completion(.success((hyperdrive, representor)))
       }
     } else {
       let host = (blueprint.metadata).filter { metadata in metadata.name == "HOST" }.first
       if let host = host {
-        if let baseURL = NSURL(string: host.value) {
+        if let baseURL = URL(string: host.value) {
           let hyperdrive = self.init(blueprint: blueprint, baseURL: baseURL)
           let representor = hyperdrive.rootRepresentor()
-          dispatch_async(dispatch_get_main_queue()) {
-            completion(.Success((hyperdrive, representor)))
+          DispatchQueue.main.async {
+            completion(.success((hyperdrive, representor)))
           }
           return
         }
@@ -176,24 +176,24 @@ public class HyperBlueprint : Hyperdrive {
       let error = NSError(domain: Hyperdrive.errorDomain, code: 0, userInfo: [
         NSLocalizedDescriptionKey: "Entering an API Blueprint hyperdrive without a base URL.",
       ])
-      dispatch_async(dispatch_get_main_queue()) {
-        completion(.Failure(error))
+      DispatchQueue.main.async {
+        completion(.failure(error))
       }
     }
   }
 
-  public required init(blueprint:Blueprint, baseURL:NSURL) {
+  public required init(blueprint:Blueprint, baseURL:URL) {
     self.blueprint = blueprint
     self.baseURL = baseURL
   }
 
-  private var resources:[Resource] {
+  fileprivate var resources:[Resource] {
     let resources = blueprint.resourceGroups.map { $0.resources }
-    return resources.reduce([], combine: +)
+    return resources.reduce([], +)
   }
 
   /// Returns a representor representing all available links
-  public func rootRepresentor() -> Representor<HTTPTransition> {
+  open func rootRepresentor() -> Representor<HTTPTransition> {
     return Representor { builder in
       for resource in self.resources {
         let actions = resource.actions.filter { action in
@@ -211,27 +211,27 @@ public class HyperBlueprint : Hyperdrive {
     }
   }
 
-  public override func constructRequest(uri: String, parameters: [String : AnyObject]?) -> RequestResult {
+  open override func constructRequest(_ uri: String, parameters: [String : AnyObject]?) -> RequestResult {
     return super.constructRequest(uri, parameters: parameters).map { request in
       request.setValue("application/json", forHTTPHeaderField: "Accept")
       return request
     }
   }
 
-  public override func constructResponse(request: NSURLRequest, response: NSHTTPURLResponse, body: NSData?) -> Representor<HTTPTransition>? {
+  open override func constructResponse(_ request: NSURLRequest, response: HTTPURLResponse, body: NSData?) -> Representor<HTTPTransition>? {
     if let resource = resourceForResponse(response) {
       return Representor { builder in
-        var uriTemplate = resource.actionForMethod(request.HTTPMethod ?? "GET")?.uriTemplate
+        var uriTemplate = resource.actionForMethod(request.httpMethod ?? "GET")?.uriTemplate
         if (uriTemplate == nil) || !uriTemplate!.isEmpty {
           uriTemplate = resource.uriTemplate
         }
 
         let template = URITemplate(template: absoluteURITemplate(self.baseURL.absoluteString, uriTemplate: uriTemplate!))
-        let parameters = template.extract(response.URL!.absoluteString)
+        let parameters = template.extract(response.url!.absoluteString)
 
-        self.addResponse(resource, parameters: parameters, request: request, response: response, body: body, builder: builder)
+        self.addResponse(resource, parameters: parameters as! [String : AnyObject], request: ((((request as URLRequest) as URLRequest) as URLRequest) as URLRequest) as URLRequest, response: response, body: body, builder: builder)
 
-        if response.URL != nil {
+        if response.url != nil {
           var allowedMethods:[String]? = nil
 
           if let allow = response.allHeaderFields["Allow"] as? String {
@@ -240,7 +240,7 @@ public class HyperBlueprint : Hyperdrive {
             }
           }
 
-          self.addTransitions(resource, parameters: parameters, builder: builder, allowedMethods: allowedMethods)
+          self.addTransitions(resource, parameters: parameters as! [String : AnyObject], builder: builder, allowedMethods: allowedMethods)
         }
 
         for link in response.links {
@@ -256,7 +256,7 @@ public class HyperBlueprint : Hyperdrive {
         }
 
         if builder.transitions["self"] == nil {
-          if let URL = response.URL?.absoluteString {
+          if let URL = response.url?.absoluteString {
             builder.addTransition("self", uri: URL) { builder in
               builder.method = "GET"
             }
@@ -268,8 +268,8 @@ public class HyperBlueprint : Hyperdrive {
     return nil
   }
 
-  public func resourceForResponse(response: NSHTTPURLResponse) -> Resource? {
-    if let URL = response.URL?.absoluteString {
+  open func resourceForResponse(_ response: HTTPURLResponse) -> Resource? {
+    if let URL = response.url?.absoluteString {
       return resources.filter { resource in
         let template = URITemplate(template: absoluteURITemplate(baseURL.absoluteString, uriTemplate: resource.uriTemplate))
         let extract = template.extract(URL)
@@ -280,19 +280,19 @@ public class HyperBlueprint : Hyperdrive {
     return nil
   }
 
-  public func actionForResource(resource:Resource, method:String) -> Action? {
+  open func actionForResource(_ resource:Resource, method:String) -> Action? {
     return resource.actions.filter { action in action.method == method }.first
   }
 
-  func resource(named  named:String) -> Resource? {
+  func resource(named:String) -> Resource? {
     return resources.filter { resource in resource.name == named }.first
   }
 
   // MARK: -
 
-  func addResponse(resource:Resource, parameters:[String:AnyObject]?, request:NSURLRequest, response:NSHTTPURLResponse, body:NSData?, builder:RepresentorBuilder<HTTPTransition>) {
+  func addResponse(_ resource:Resource, parameters:[String:AnyObject]?, request:URLRequest, response:HTTPURLResponse, body:Data?, builder:RepresentorBuilder<HTTPTransition>) {
     if let body = body {
-      if response.MIMEType == "application/json" {
+      if response.mimeType == "application/json" {
         if let object = decodeJSON(body).value {
           addObjectResponse(resource, parameters: parameters, request: request, response: response, object: object, builder: builder)
         }
@@ -301,18 +301,18 @@ public class HyperBlueprint : Hyperdrive {
   }
 
   /// Returns any required URI Parameters for the given resource and attributes to determine the URI for the resource
-  public func parameters(resource  resource:Resource, attributes:[String:AnyObject]) -> [String:AnyObject]? {
+  open func parameters(resource:Resource, attributes:[String:AnyObject]) -> [String:AnyObject]? {
     // By default, check if the attributes includes a URL we can use to extract the parameters
     if let url = attributes["url"] as? String {
       return resources.flatMap {
         URITemplate(template: $0.uriTemplate).extract(url)
-      }.first
+      }.first as! [String : AnyObject]
     }
 
     return nil
   }
 
-  func addObjectResponse(resource:Resource, parameters:[String:AnyObject]?, request:NSURLRequest, response:NSHTTPURLResponse, object:AnyObject, builder:RepresentorBuilder<HTTPTransition>) {
+  func addObjectResponse(_ resource:Resource, parameters:[String:AnyObject]?, request:URLRequest, response:HTTPURLResponse, object:AnyObject, builder:RepresentorBuilder<HTTPTransition>) {
     if let attributes = object as? [String:AnyObject] {
       addAttributes([:], resource:resource, request: request, response: response, attributes: attributes, builder: builder)
     } else if let objects = object as? [[String:AnyObject]] {  // An array of other resources
@@ -321,7 +321,7 @@ public class HyperBlueprint : Hyperdrive {
         .flatMap(selectFirstContent)
         .flatMap { $0["element"] as? String }
 
-      if let resourceName = resourceName, embeddedResource = self.resource(named: resourceName) {
+      if let resourceName = resourceName, let embeddedResource = self.resource(named: resourceName) {
         let relation = resource.actionForMethod(request.HTTPMethod ?? "GET")?.relation ?? "objects"
         for object in objects {
           builder.addRepresentor(relation) { builder in
@@ -332,23 +332,23 @@ public class HyperBlueprint : Hyperdrive {
     }
   }
 
-  func addObjectResponseOfResource(relation:String, resource:Resource, request:NSURLRequest, response:NSHTTPURLResponse, object:AnyObject, builder:RepresentorBuilder<HTTPTransition>) {
+  func addObjectResponseOfResource(_ relation:String, resource:Resource, request:URLRequest, response:HTTPURLResponse, object:AnyObject, builder:RepresentorBuilder<HTTPTransition>) {
     if let attributes = object as? [String:AnyObject] {
       builder.addRepresentor(relation) { builder in
         self.addAttributes([:], resource: resource, request: request, response: response, attributes: attributes, builder: builder)
       }
     } else if let objects = object as? [[String:AnyObject]] {
       for object in objects {
-        addObjectResponseOfResource(relation, resource: resource, request: request, response: response, object: object, builder: builder)
+        addObjectResponseOfResource(relation, resource: resource, request: request, response: response, object: object as AnyObject, builder: builder)
       }
     }
   }
 
-  func addAttributes(parameters:[String:AnyObject]?, resource:Resource, request:NSURLRequest, response:NSHTTPURLResponse, attributes:[String:AnyObject], builder:RepresentorBuilder<HTTPTransition>) {
+  func addAttributes(_ parameters:[String:AnyObject]?, resource:Resource, request:URLRequest, response:HTTPURLResponse, attributes:[String:AnyObject], builder:RepresentorBuilder<HTTPTransition>) {
     let action = actionForResource(resource, method: request.HTTPMethod!)
 
     // Find's the Resource structure for an attribute in the current resource response
-    func resourceForAttribute(key: String) -> Resource? {
+    func resourceForAttribute(_ key: String) -> Resource? {
       // TODO: Rewrite this to use proper refract structures
         // Find the element value for the MSON object key
        return resource.dataStructure
@@ -373,7 +373,7 @@ public class HyperBlueprint : Hyperdrive {
     addTransitions(resource, parameters:params, builder: builder)
   }
 
-  func addTransitions(resource:Resource, parameters:[String:AnyObject]?, builder:RepresentorBuilder<HTTPTransition>, allowedMethods:[String]? = nil) {
+  func addTransitions(_ resource:Resource, parameters:[String:AnyObject]?, builder:RepresentorBuilder<HTTPTransition>, allowedMethods:[String]? = nil) {
     let resourceURI = absoluteURITemplate(self.baseURL.absoluteString, uriTemplate: URITemplate(template: resource.uriTemplate).expand(parameters ?? [:]))
 
     for action in resource.actions {
@@ -413,24 +413,24 @@ func +<K,V>(lhs:Dictionary<K,V>, rhs:Dictionary<K,V>) -> Dictionary<K,V> {
 
 
 // Refract Traversal
-private func selectContent(element: Element) -> AnyObject? {
+private func selectContent(_ element: Element) -> AnyObject? {
   return element["content"]
 }
 
-private func selectElementArrayContent(element: Element) -> [Element]? {
+private func selectElementArrayContent(_ element: Element) -> [Element]? {
   return selectContent(element) as? [Element]
 }
 
-private func selectFirstContent(element: Element) -> Element? {
+private func selectFirstContent(_ element: Element) -> Element? {
   return selectElementArrayContent(element)?.first
 }
 
 /// Traverses a collection of member elements in search for the value for a key
-private func selectValueWithKey<T: Equatable>(key: T) -> [Element] -> Element? {
+private func selectValueWithKey<T: Equatable>(_ key: T) -> ([Element]) -> Element? {
   return { element in
     return element.flatMap(selectContent)
       .filter { element in
-        if let elementKey = element["key"] as? [String: AnyObject], keyContent = elementKey["content"] as? T {
+        if let elementKey = element["key"] as? [String: AnyObject], let keyContent = elementKey["content"] as? T {
           return keyContent == key
         }
         return false
@@ -440,6 +440,6 @@ private func selectValueWithKey<T: Equatable>(key: T) -> [Element] -> Element? {
   }
 }
 
-private func selectElementValue(element: Element) -> String? {
+private func selectElementValue(_ element: Element) -> String? {
   return element["element"] as? String
 }

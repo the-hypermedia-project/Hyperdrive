@@ -163,12 +163,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27DCA53A1AD57C7800849B15 /* Build configuration list for PBXNativeTarget "Hyperdrive" */;
 			buildPhases = (
-				E0ACB63369A27BC639BB3DCE /* 📦 Check Pods Manifest.lock */,
+				E0ACB63369A27BC639BB3DCE /* [CP] Check Pods Manifest.lock */,
 				27DCA51F1AD57C7700849B15 /* Sources */,
 				27DCA5201AD57C7700849B15 /* Frameworks */,
 				27DCA5211AD57C7700849B15 /* Headers */,
 				27DCA5221AD57C7700849B15 /* Resources */,
-				9CB421115C6BC9F4BB3382A2 /* 📦 Copy Pods Resources */,
+				9CB421115C6BC9F4BB3382A2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -183,12 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27DCA53D1AD57C7800849B15 /* Build configuration list for PBXNativeTarget "HyperdriveTests" */;
 			buildPhases = (
-				CCD394F90A38E6BC4BCA6C04 /* 📦 Check Pods Manifest.lock */,
+				CCD394F90A38E6BC4BCA6C04 /* [CP] Check Pods Manifest.lock */,
 				27DCA52B1AD57C7800849B15 /* Sources */,
 				27DCA52C1AD57C7800849B15 /* Frameworks */,
 				27DCA52D1AD57C7800849B15 /* Resources */,
-				E1279185655B16FDC3E66697 /* 📦 Embed Pods Frameworks */,
-				5DF2CAEB3C76DB97835717FD /* 📦 Copy Pods Resources */,
+				E1279185655B16FDC3E66697 /* [CP] Embed Pods Frameworks */,
+				5DF2CAEB3C76DB97835717FD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -213,9 +213,11 @@
 				TargetAttributes = {
 					27DCA5231AD57C7700849B15 = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 0830;
 					};
 					27DCA52E1AD57C7800849B15 = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 0830;
 					};
 				};
 			};
@@ -255,14 +257,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5DF2CAEB3C76DB97835717FD /* 📦 Copy Pods Resources */ = {
+		5DF2CAEB3C76DB97835717FD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,14 +272,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HyperdriveTests/Pods-HyperdriveTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9CB421115C6BC9F4BB3382A2 /* 📦 Copy Pods Resources */ = {
+		9CB421115C6BC9F4BB3382A2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,44 +287,44 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hyperdrive/Pods-Hyperdrive-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CCD394F90A38E6BC4BCA6C04 /* 📦 Check Pods Manifest.lock */ = {
+		CCD394F90A38E6BC4BCA6C04 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E0ACB63369A27BC639BB3DCE /* 📦 Check Pods Manifest.lock */ = {
+		E0ACB63369A27BC639BB3DCE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E1279185655B16FDC3E66697 /* 📦 Embed Pods Frameworks */ = {
+		E1279185655B16FDC3E66697 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,6 +464,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -482,6 +485,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.apiary.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -502,6 +506,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.apiary.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -518,6 +523,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.apiary.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

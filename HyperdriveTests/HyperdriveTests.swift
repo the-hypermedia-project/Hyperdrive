@@ -107,7 +107,7 @@ class HyperdriveTests: XCTestCase {
     switch result {
     case .Success(let request):
       let body = request.HTTPBody!
-      let decodedBody = try? NSJSONSerialization.JSONObjectWithData(body, options: NSJSONReadingOptions(rawValue: 0)) as! NSDictionary
+      let decodedBody = try? JSONSerialization.JSONObjectWithData(body, options: JSONSerialization.ReadingOptions(rawValue: 0)) as! NSDictionary
       XCTAssertEqual(decodedBody, ["username": "kyle"])
     case .Failure(let error):
       XCTFail(error.description)
@@ -121,15 +121,15 @@ class HyperdriveTests: XCTestCase {
   // MARK: Constructing a response
 
   func testConstructingResponseFromSirenBody() {
-    let URL = NSURL(string: "https://hyperdrive-tests.fuller.li/users")!
-    let request = NSURLRequest(URL: URL)
-    let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: "1.1", headerFields: ["Content-Type": "application/vnd.siren+json"])!
+    let URL = Foundation.URL(string: "https://hyperdrive-tests.fuller.li/users")!
+    let request = URLRequest(url: URL)
+    let response = HTTPURLResponse(url: URL, statusCode: 200, httpVersion: "1.1", headerFields: ["Content-Type": "application/vnd.siren+json"])!
     let attributes = [
       "properties": [
         "test": "hello world"
       ]
     ]
-    let body = try! NSJSONSerialization.dataWithJSONObject(attributes, options: NSJSONWritingOptions(rawValue: 0))
+    let body = try! JSONSerialization.data(withJSONObject: attributes, options: JSONSerialization.WritingOptions(rawValue: 0))
 
     let representor = hyperdrive.constructResponse(request, response: response, body:body)!
     XCTAssertEqual(representor.attributes["test"] as? String, "hello world")
